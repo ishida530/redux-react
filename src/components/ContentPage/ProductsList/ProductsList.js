@@ -22,6 +22,7 @@ const ContainerList = styled.div`
         justify-content:center;
         li{list-style:none;
             max-height: 330px;
+            max-width: 150px;
             display: flex;
             flex-direction: column;
             padding: 20px;
