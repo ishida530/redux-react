@@ -17,7 +17,6 @@ const ContainerList = styled.div`
         display:flex;
         flex-wrap: wrap;  
         justify-content:center;
-
         li{list-style:none;
             max-height: 330px;
             display: flex;
@@ -43,7 +42,7 @@ const ContainerList = styled.div`
                 align-items: center;height:100%;
             }
             button{
-                text-decoration
+                text-decoration:none;
             }
     }}
 }
