@@ -1,4 +1,5 @@
 import React from 'react';
+import { connectAdvanced } from 'react-redux';
 const Product = (props,{match}) => {
     console.log('product, props',props)
     console.log('product, match',match)
@@ -12,5 +13,11 @@ const Product = (props,{match}) => {
         </>
     );
 }
+const mapStateToProps = (state) => ({
+    book: {...state}
+})
 
-export default Product;
+
+
+
+export default connectAdvanced(mapStateToProps)(Product);

@@ -20,8 +20,6 @@ const ContainerList = styled.div`
 
         li{list-style:none;
             max-height: 330px;
-
-            a{
             display: flex;
             flex-direction: column;
             padding: 20px;
@@ -44,27 +42,23 @@ const ContainerList = styled.div`
                 text-align:center ;
                 align-items: center;height:100%;
             }
+            button{
+                text-decoration
+            }
     }}
 }
 
 `;
 const ProductsList = ({ data, addId }) => {
-    console.log('aaa', data)
-    const handleClick =async (event, id) => {
-        console.log('id',id)
-        event.preventDefault();
-        addId(id)
-    }
+
     const list = data.books.map(item => {
         let id = shortid()
         // const idProduct = shortid()
         return (
             <li key={id}>
-                <NavLink to={`/product/${id}`} >
-                    <img src={item.simple_thumb} alt="Logo" />
-                    <h4>{item.title}</h4>
-                    <button onClick={() =>handleClick(id)}>Zobacz</button>
-                </NavLink>
+                <img src={item.simple_thumb} alt="Logo" />
+                <h4>{item.title}</h4>
+                <NavLink to={`/product/${id}`}>Zobacz</NavLink>
             </li>)
     })
     return (
@@ -81,7 +75,5 @@ const ProductsList = ({ data, addId }) => {
 const mapStateToProps = state => ({
     data: { ...state }
 })
-const mapDispatchToProps = dispatch => ({
-    addId: payload => dispatch(addIdSingleBook(payload))
-})
-export default connect(mapStateToProps, mapDispatchToProps)(ProductsList)
+
+export default connect(mapStateToProps)(ProductsList)
