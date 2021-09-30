@@ -1,23 +1,26 @@
-import React from 'react';
-import { connectAdvanced } from 'react-redux';
-const Product = (props,{match}) => {
-    console.log('product, props',props)
-    console.log('product, match',match)
+import React, { useEffect } from 'react';
+import {
+    useParams
+} from "react-router-dom";
+import { connect } from 'react-redux'
+
+const Product = ({ booksArray }) => {
+    console.log('booksArray.books', booksArray.books)
+    const searchId = useParams()
+    console.log(typeof (searchId), searchId.id)
+    let singleProduct =booksArray.books.filter(item => item.key === searchId.id).map(book => <div>
+        <h1>{book.id}</h1>
+        <img src={book.simple_thumb} alt="Logo" />
+        <h4>{book.title}</h4> </div>)
+
     return (
         <>
-          
-                <h1>{props.id}</h1>
-                <img src={props.simple_thumb} alt="Logo" />
-                        <h4>{props.title}</h4>
-                        <button>Dodaj do koszyka</button>
+            {singleProduct}
+            <button>Dodaj do koszyka</button>
         </>
     );
 }
-const mapStateToProps = (state) => ({
-    book: {...state}
+const mapStateToProps = state => ({
+    booksArray: { ...state }
 })
-
-
-
-
-export default connectAdvanced(mapStateToProps)(Product);
+export default connect(mapStateToProps)(Product);

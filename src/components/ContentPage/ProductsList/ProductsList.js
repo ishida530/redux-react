@@ -13,6 +13,9 @@ import { addIdSingleBook } from '../../../redux/store';
 const ContainerList = styled.div`
  margin: 0 auto;
     width: 90%;
+    h2{
+        text-align: center;
+    }
     ul{  
         display:flex;
         flex-wrap: wrap;  
@@ -31,7 +34,7 @@ const ContainerList = styled.div`
             color: #000;
             flex-grow: 1;
             img{
-                max-height: 150px;
+                max-height: 220px;
                 width:auto;
             }
             h4{
@@ -41,8 +44,15 @@ const ContainerList = styled.div`
                 text-align:center ;
                 align-items: center;height:100%;
             }
-            button{
+            a{text-align:center;
                 text-decoration:none;
+                padding:10px 20px;
+                background-color: #fff;
+                border: 2px solid rgba(1,1,1,0.5);
+                border-radius: 5px;
+                color: #000;
+                text-transform: uppercase;
+                font-weight: 500;
             }
     }}
 }
@@ -51,13 +61,11 @@ const ContainerList = styled.div`
 const ProductsList = ({ data, addId }) => {
 
     const list = data.books.map(item => {
-        let id = shortid()
-        // const idProduct = shortid()
         return (
-            <li key={id}>
+            <li key={item.key}>
                 <img src={item.simple_thumb} alt="Logo" />
                 <h4>{item.title}</h4>
-                <NavLink to={`/product/${id}`}>Zobacz</NavLink>
+                <NavLink to={`/product/${item.key}`}>Zobacz</NavLink>
             </li>)
     })
     return (

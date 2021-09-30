@@ -3,6 +3,10 @@ import thunk from "redux-thunk";
 import { composeWithDevTools } from 'redux-devtools-extension';
 import shortid from "shortid";
 
+
+//selectors
+
+
 const createActionName = name => `app/books/${name}`
 // action names
 const UPDATE_BOOKS = createActionName('UPDATE_BOOKS')
@@ -10,7 +14,6 @@ const ADD_ID_FOR_BOOK = createActionName('ADD_ID_FOR_BOOK')
 
 // action creators
 export const updateBooks = payload => ({ type: UPDATE_BOOKS, payload })
-
 export const addIdSingleBook = payload => ({ type: ADD_ID_FOR_BOOK, payload })
 
 
@@ -24,14 +27,14 @@ export const fetchbooks = () => {
         try {
             const res = await fetch('https://wolnelektury.pl/api/authors/adam-mickiewicz/kinds/liryka/books/')
             const data = await res.json()
-            const newData = data.map(item=>(
-                {...item,key:shortid()})
-                );
-            
-dispatch(updateBooks(newData))
+            const newData = data.map(item => (
+                { ...item, key: shortid().toString() })
+            );
+
+            dispatch(updateBooks(newData))
         } catch (err) {
-    console.error(err)
-}
+            console.error(err)
+        }
     }
 }
 
