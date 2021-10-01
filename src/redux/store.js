@@ -68,7 +68,14 @@ const reducer = (state = initialState, { type, payload }) => {
         case UPDATE_BOOKS:
             return { ...state, books: [...payload] }
         case ADD_BOOK_TO_BASKET:
-        return  { ...state,basket: [...state.basket, payload] }
+        return  { ...state,basket: [...state.basket.filter(item=>{
+
+if(item.key === payload.key){
+    return item.count++
+  //  return console.log('item key',item,'vs', 'payload',payload)
+}else return [...state.basket,payload]
+
+        }), payload] }
         case INCREMENT_COUNT_IN_BASKET:
             return  { ...state,basket: [...state.basket, payload.key++] }
             // return  { ...state,basket: [...state.basket.filter(item=>item.key===payload.key)] }

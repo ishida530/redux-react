@@ -54,4 +54,4 @@ const Header = ({basket}) => {
 const mapStateToProps=state=>({
     basket:countInBasket(state)
 })
-export default connect(mapStateToProps) (Header);
+export default connect(mapStateToProps)(Header);
