@@ -2,11 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import {
-    NavLink, Link
+     Link
 } from "react-router-dom";
-import ProductsListItem from "../ProductsListItem/ProductsListItem"
-import shortid from 'shortid';
-import { addIdSingleBook } from '../../../redux/store';
+
 
 
 
@@ -55,18 +53,18 @@ const ContainerList = styled.div`
                 text-transform: uppercase;
                 font-weight: 500;
             }
-    }}
+    }
 }
 
 `;
-const ProductsList = ({ data, addId }) => {
+const ProductsList = ({ data }) => {
 
     const list = data.books.map(item => {
         return (
             <li key={item.key}>
                 <img src={item.simple_thumb} alt="Logo" />
                 <h4>{item.title}</h4>
-                <NavLink to={`/product/${item.key}`}>Zobacz</NavLink>
+                <Link to={`/product/${item.key}`}>Zobacz</Link>
             </li>)
     })
     return (
