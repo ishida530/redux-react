@@ -41,7 +41,7 @@ export const fetchbooks = () => {
                 { ...item, key: shortid().toString() })
             );
 
-            dispatch(updateBooks(newData))
+           dispatch(updateBooks(newData))
         } catch (err) {
             console.error(err)
         }
