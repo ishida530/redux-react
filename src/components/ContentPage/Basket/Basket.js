@@ -1,75 +1,64 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import shortid from 'shortid';
-import { basketList } from '../../../redux/store'
-const Basket = ({ basketList }) => {
+import { basketList, checkBasket, removeProduct,countInBasket } from '../../../redux/store'
+const Basket = ({ basketList, countBook, removeBook,itemsBasket }) => {
     let checkerSameId;
-    const [filterBasket, setFilterBasket] = useState([])
-    console.log('basketList', basketList)
-    console.log('checkerSameId', checkerSameId)
 
 
-    // let oldKey = '';
-    // let iteration = -1;
-    // const arr = [];
-
-    // basketList.forEach(el=>{
-    //     if (el.key != oldKey) {
-    //         arr.push([el]);
-    //         iteration++;
-    //         oldKey = el.key;
-    //     } else {
-    //         arr[iteration] = [...arr[iteration],el];
-    //     }
-    // })
-
-
+    const handleIncrementBtn = (e, book) => {
+        e.preventDefault()
+        countBook({
+            key: book.key,
+            img: book.simple_thumb,
+            title: book.title,
+            count: 1
+        })
+    }
+    const handleDecrementBtn = (e, book) => {
+        e.preventDefault()
+        if (book.count > 0) countBook({
+            key: book.key,
+            img: book.simple_thumb,
+            title: book.title,
+            count: 0
+        })
+    }
+    const handleRemoveBtn = (e, book) => {
+        e.preventDefault()
+        console.log('usunnn')
+        removeBook({
+            key: book.key,
+            img: book.simple_thumb,
+            title: book.title,
+            count: 1
+        })
+    }
     const li = (item) => (
         <li key={shortid()}>
-            {item.title}<input type="number"  />
+            {item.title}
+            <input type="number" defaultValue={item.count} />
+            <button onClick={e => handleIncrementBtn(e, item)}>+</button>
+            <button onClick={(e) => handleDecrementBtn(e, item)}>-</button>
+            <button onClick={(e) => handleRemoveBtn(e, item)}>Usuń </button>
         </li>
     )
+    console.log("basketList",basketList)
+    console.log("basketList",typeof(basketList))
     return (
         <div>
             <ol>
-
-                {/* {
-                    arr.map((el,index)=>{
-                        let amount = 0;
-                        el.forEach(elInsideEl=>{
-                            amount++;
-                        })
-                        return (
-                            <li>{arr[index][0].title}-{amount}</li>
-                        )
-                    }
-                )
-
-                } */}
-                {basketList.map(item => li(item)
-
-                    )}
-
-                {/* {basketList.filter((thing, index) => {
-  const _thing = JSON.stringify(thing);
-  return index === basketList.findIndex(obj => {
-    return JSON.stringify(obj) === _thing;
-  })
-})} */}
-
-
-
-
+                {itemsBasket === 0 ?<h1>Koszyk jest pusty</h1> :basketList.map(item => li(item))}
             </ol>
-
-
-
-
-
         </div>
     )
 }
 const mapStateToProps = state => ({
-    basketList: basketList(state)
+    basketList: basketList(state),
+    itemsBasket:countInBasket(state)
 })
-export default connect(mapStateToProps)(Basket)
+const mapDispatchToProps = dispatch => ({
+    countBook: book => dispatch(checkBasket(book)),
+    removeBook: book => dispatch(removeProduct(book))
+})
+export default connect(mapStateToProps, mapDispatchToProps)(Basket)

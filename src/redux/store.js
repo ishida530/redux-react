@@ -4,9 +4,22 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import shortid from "shortid";
 
 
+let lengthArrayBooks = 0;
+const fun=arr=> Object.values(arr).forEach(e=> lengthArrayBooks += e.count);
 //selectors
+export const countInBasket = (state) => {
+    lengthArrayBooks = 0;
+    console.log('state',state)
 
-export const countInBasket = (state) => state.basket.countItems.length;
+    console.log('state.basket',typeof(state.basket))
+    if (state.basket.length !== 0) {
+        const propertyValues = Object.values(state.basket)
+console.log(propertyValues)
+        console.log('state.basket',state.basket)
+        fun(state.basket)
+    }
+    return lengthArrayBooks
+}
 export const basketList = (state) => state.basket;
 
 
@@ -15,21 +28,19 @@ const createActionName = name => `app/books/${name}`
 // action names
 const UPDATE_BOOKS = createActionName('UPDATE_BOOKS')
 const ADD_BOOK_TO_BASKET = createActionName('ADD_BOOK_TO_BASKET')
-const INCREMENT_COUNT_IN_BASKET = createActionName('INCREMENT_COUNT_IN_BASKET')
+const REMOVE_BOOK_FROM_BASKET = createActionName('REMOVE_BOOK_FROM_BASKET')
+const REMOVE_ALL_BOOK_FROM_BASKET = createActionName('REMOVE_ALL_BOOK_FROM_BASKET')
 // action creators
 export const updateBooks = payload => ({ type: UPDATE_BOOKS, payload })
 export const addItemToBasket = payload => ({ type: ADD_BOOK_TO_BASKET, payload })
-export const incrementItemBasket = payload => ({ type: INCREMENT_COUNT_IN_BASKET, payload })
-
+export const removeItemfromBasket = payload => ({ type: REMOVE_BOOK_FROM_BASKET, payload })
+export const removeProduct = payload => ({ type: REMOVE_ALL_BOOK_FROM_BASKET, payload })
 
 
 
 
 const initialState = {
-    basket: {
-        items: [],
-        countItems: [],
-    },
+    basket: []
 }
 
 export const fetchbooks = () => {
@@ -40,30 +51,19 @@ export const fetchbooks = () => {
             const newData = data.map(item => (
                 { ...item, key: shortid().toString() })
             );
-
-           dispatch(updateBooks(newData))
+            dispatch(updateBooks(newData))
         } catch (err) {
             console.error(err)
         }
     }
 }
 export const checkBasket = (book, state) => {
-    console.log('state', state)
-    console.log('book', book)
     return async (dispatch) => {
-
-
-        // const countItem = state.basket.filter(item => {
-        //     console.log('item.key',item.key)
-        //     console.log('book.key',book.key)
-        //     return item.key === book.key
-        // })
-
-        // console.log('countItem.length',countItem.length)
-        // state.basket.length > 1 ?  incrementItemBasket() : dispatch(addItemToBasket(book))
-        dispatch(addItemToBasket(book))
-        dispatch(incrementItemBasket(book))
-
+        if (book.count === 0) {
+            dispatch(removeItemfromBasket(book))
+        } else {
+            dispatch(addItemToBasket(book))
+        }
     }
 }
 let counter = 0
@@ -73,26 +73,34 @@ const reducer = (state = initialState, { type, payload }) => {
             return { ...state, books: [...payload] }
         case ADD_BOOK_TO_BASKET:
             return {
-                ...state, basket: {
-                    ...state.basket,
-                    items: [...state.basket.items.filter(item => {
-                        if (item.key === payload.key) {
-                            counter = item.count
-                            payload.count = ++counter
-                        }
-                        if (item.key !== payload.key) return item
-                    }), payload],
-                }
+                ...state,
+                basket: [...state.basket.filter(item => {
+                    if (item.key === payload.key) {
+                        counter = item.count
+                        payload.count = ++counter
+                    }
+                    if (item.key !== payload.key) return item
+                }), payload],
+
             }
-        case INCREMENT_COUNT_IN_BASKET:
+        case REMOVE_BOOK_FROM_BASKET:
+            return {
+                ...state,
+                basket: [...state.basket.filter(item => {
+                    if (item.key === payload.key) {
+                        counter = item.count
+                        payload.count = --counter
+                    }
+                    if (item.key !== payload.key) return item
+                }), payload],
+
+            }
+        case REMOVE_ALL_BOOK_FROM_BASKET:
             return {
                 ...state, basket: {
-                    ...state.basket,
-                    countItems: [...state.basket.countItems, payload]
-
+                    basket: [...state.basket.filter(item => item.key !== payload.key)]
                 }
             }
-
 
 
         default:
