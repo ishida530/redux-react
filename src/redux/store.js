@@ -5,23 +5,24 @@ import shortid from "shortid";
 
 
 let lengthArrayBooks = 0;
-const fun=arr=> Object.values(arr).forEach(e=> lengthArrayBooks += e.count);
+const fun = arr => Object.values(arr).forEach(e => lengthArrayBooks += e.count);
 //selectors
 export const countInBasket = (state) => {
     lengthArrayBooks = 0;
-    console.log('state',state)
-
-    console.log('state.basket',typeof(state.basket))
     if (state.basket.length !== 0) {
-        const propertyValues = Object.values(state.basket)
-console.log(propertyValues)
-        console.log('state.basket',state.basket)
         fun(state.basket)
     }
     return lengthArrayBooks
 }
 export const basketList = (state) => state.basket;
-
+export const priceForAll=state=>{
+    let price=0;
+    state.basket.forEach(item=>{
+        price+=item.price*item.count
+    })
+console.log('funkcja',price)
+    return price
+}
 
 
 const createActionName = name => `app/books/${name}`
@@ -49,7 +50,11 @@ export const fetchbooks = () => {
             const res = await fetch('https://wolnelektury.pl/api/authors/adam-mickiewicz/kinds/liryka/books/')
             const data = await res.json()
             const newData = data.map(item => (
-                { ...item, key: shortid().toString() })
+                {
+                    ...item,
+                    key: shortid().toString(),
+                    price: (Math.random() * 100.00).toFixed(2),
+                })
             );
             dispatch(updateBooks(newData))
         } catch (err) {
@@ -98,7 +103,7 @@ const reducer = (state = initialState, { type, payload }) => {
         case REMOVE_ALL_BOOK_FROM_BASKET:
             return {
                 ...state, basket: [...state.basket.filter(item => item.key !== payload.key)]
-                
+
             }
 
 

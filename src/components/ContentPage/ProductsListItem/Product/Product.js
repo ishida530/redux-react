@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React from 'react';
 import {
     useParams
 } from "react-router-dom";
@@ -18,14 +18,13 @@ const Product = ({ booksArray,addBook }) => {
     )
       
         const handleClick=(e,book)=>{
-            console.log('click btn')
             e.preventDefault();
-            console.log(book)
            return addBook({
                key: book.key,
                img:book.simple_thumb,
                title:book.title,
-               count:1
+               count:1,
+               price:book.price,
            })
         }
     return (
