@@ -97,9 +97,8 @@ const reducer = (state = initialState, { type, payload }) => {
             }
         case REMOVE_ALL_BOOK_FROM_BASKET:
             return {
-                ...state, basket: {
-                    basket: [...state.basket.filter(item => item.key !== payload.key)]
-                }
+                ...state, basket: [...state.basket.filter(item => item.key !== payload.key)]
+                
             }
 
 
