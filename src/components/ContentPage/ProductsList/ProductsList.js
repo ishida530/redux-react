@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import {
      Link
 } from "react-router-dom";
+import { checkBasket } from '../../../redux/store';
 
 
 
@@ -57,14 +58,27 @@ const ContainerList = styled.div`
 }
 
 `;
-const ProductsList = ({ data }) => {
 
+
+
+const ProductsList = ({ data,addBook }) => {
+    const handleOnClik=(e,book)=>{
+        e.preventDefault();
+        addBook({
+            key: book.key,
+            img: book.simple_thumb,
+            title: book.title,
+            count: 1,
+            price: book.price,
+        })
+        }
     const list = data.books.map(item => {
         return (
             <li key={item.key}>
                 <img src={item.simple_thumb} alt="Logo" />
                 <h4>{item.title}</h4>
                 <Link to={`/product/${item.key}`}>Zobacz</Link>
+                <button onClick={e=>handleOnClik(e,item)}> Dodaj do koszyka</button>
             </li>)
     })
     return (
@@ -81,5 +95,7 @@ const ProductsList = ({ data }) => {
 const mapStateToProps = state => ({
     data: { ...state }
 })
-
-export default connect(mapStateToProps)(ProductsList)
+const mapDispatchToProps=dispatch=>({
+    addBook:(book) => dispatch(checkBasket(book))
+})
+export default connect(mapStateToProps,mapDispatchToProps)(ProductsList)

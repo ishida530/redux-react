@@ -19,12 +19,9 @@ const App = ({udpateBook,request}) => {
   return (
     <Router >
       <Header />
-      { request.pending &&   <Loader type="Rings" color="red" height={80} width={80} />}
+      { request.pending && <Loader type="Rings" color="red" height={80} width={80} />}
 			{ request.error && console.warn('warrning')}
-			{ request.success && 
-			      <ContentPage />
-
-			}
+			{ request.success && <ContentPage />}
     </Router>
   )
 }

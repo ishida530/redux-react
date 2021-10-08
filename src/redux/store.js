@@ -36,6 +36,8 @@ const REMOVE_ALL_BOOK_FROM_BASKET = createActionName('REMOVE_ALL_BOOK_FROM_BASKE
 const START_REQUEST = createActionName('START_REQUEST')
 const FINISH_REQUEST_WITH_ERROR = createActionName('FINISH_REQUEST_WITH_ERROR')
 const FINISH_REQUEST_WITH_SUCCESS = createActionName('FINISH_REQUEST_WITH_SUCCESS')
+const SET_AMOUNT_BOOK = createActionName('SET_AMOUNT_BOOK')
+
 // action creators
 export const updateBooks = payload => ({ type: UPDATE_BOOKS, payload })
 export const addItemToBasket = payload => ({ type: ADD_BOOK_TO_BASKET, payload })
@@ -44,6 +46,7 @@ export const removeProduct = payload => ({ type: REMOVE_ALL_BOOK_FROM_BASKET, pa
 export const startRequest = () => ({ type: START_REQUEST })
 export const finishRequestWithError = () => ({ type: FINISH_REQUEST_WITH_ERROR })
 export const finishRequestWithSuccess = () => ({ type: FINISH_REQUEST_WITH_SUCCESS })
+export const setAmountBooks = payload => ({ type: SET_AMOUNT_BOOK, payload })
 
 
 
@@ -112,9 +115,14 @@ const reducer = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 basket: [...state.basket.filter(item => {
+                    console.log('item',item.count)
+                    console.log('payload',payload.count)
+                    counter = 0
+
                     if (item.key === payload.key) {
+                        
                         counter = item.count
-                        payload.count = ++counter
+                        payload.count += counter
                     }
                     if (item.key !== payload.key) return item
                 }), payload].sort(compare),
@@ -144,6 +152,23 @@ const reducer = (state = initialState, { type, payload }) => {
             case FINISH_REQUEST_WITH_ERROR:
                 return { ...state, request: { pending: false, error: true, success: false }}
 
+                case SET_AMOUNT_BOOK:
+                    return {
+                        ...state,
+                        basket: [...state.basket.filter(item => {
+                            console.log('item',item.count)
+                            console.log('payload',payload.count)
+                            counter = 0
+        
+                            // if (item.key === payload.key) {
+                                
+                            //     counter = item.count
+                            //     payload.count = counter
+                            // }
+                            if (item.key !== payload.key) return item
+                        }), payload].sort(compare),
+        
+                    }
         default:
             return state
     }
