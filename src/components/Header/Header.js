@@ -41,7 +41,7 @@ const itemsNaviagation = [
 const Header = ({basket}) => {
     const menu = itemsNaviagation.map(item => (
         <li key={item.name}>
-            <NavLink exact={item.exact ? item.exact : false} to={item.path}>{item.name ==="koszyk"?<>{item.name} <span>{basket}</span></>: `${item.name}`}</ NavLink>
+            <NavLink exact={item.exact ? item.exact : false} to={item.path}>{item.name ==="koszyk"?<>{item.name} <span>{ isNaN(basket)?'aa':basket}</span></>: `${item.name}`}</ NavLink>
         </li>
     ))
     return (

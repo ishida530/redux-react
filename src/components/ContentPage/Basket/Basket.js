@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect, createRef, useRef } from 'react'
 import { connect } from 'react-redux'
 import shortid from 'shortid';
 import styled from 'styled-components';
@@ -20,11 +20,9 @@ margin: 15px;
 `
 
 
+const Basket = ({ basketList, countBook, removeBook, itemsBasket, price, setCountBook }) => {
 
 
-const Basket = ({ basketList, countBook, removeBook, itemsBasket, price,setCountBook }) => {
-
-    console.log('aaaaa', price)
     const handleIncrementBtn = (e, book) => {
         e.preventDefault()
         countBook({
@@ -43,9 +41,8 @@ const Basket = ({ basketList, countBook, removeBook, itemsBasket, price,setCount
             title: book.title,
             count: 0,
             price: book.price
-
         })
-         else removeBook({
+        else removeBook({
             key: book.key,
         })
     }
@@ -55,25 +52,42 @@ const Basket = ({ basketList, countBook, removeBook, itemsBasket, price,setCount
             key: book.key,
         })
     }
-    const handleOnChange=(e,book)=>{
+    const handleOnBlur = (e, book) => {
+        if (e.target.value.length === 0 || e.target.value == 0) {
+            setTimeout(() => {
+                if (window.confirm("usunać?")) {
+                    removeBook({
+                        key: book.key,
+                    });
+                } else {
+                    setCountBook({
+                        key: book.key,
+                        img: book.simple_thumb,
+                        title: book.title,
+                        count: 1,
+                        price: book.price
+                    })
+                    e.target.focus()
 
-if(parseInt(e.target.value)===0) removeBook({
-    key: book.key,
-});else setCountBook({
-        key: book.key,
-        img: book.simple_thumb,
-        title: book.title,
-        count: parseInt(e.target.value),
-        price: book.price
-
-})
-
+                }
+            }, 500)
+        }
     }
+    const handleOnChange = (e, book) => {
+        setCountBook({
+            key: book.key,
+            img: book.simple_thumb,
+            title: book.title,
+            count: parseInt(e.target.value),
+            price: book.price
+        })
+    }
+
     const li = (item) => (
-        <li key={shortid()}>
+        <li key={item.key}>
             <span>{item.title}.</span>
             <div>
-                <label><b> Ilośc sztuk:</b> <input type="number" value={item.count} onChange={e=>handleOnChange(e,item)} /></label>
+                <label><b> Ilośc sztuk:</b> <input type="number" value={item.count} onChange={e => handleOnChange(e, item)} onBlur={e => handleOnBlur(e, item)} /></label>
                 <button onClick={e => handleIncrementBtn(e, item)}>+</button>
                 <button onClick={e => handleDecrementBtn(e, item)}>-</button>
             </div>
@@ -102,6 +116,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     countBook: book => dispatch(checkBasket(book)),
     removeBook: book => dispatch(removeProduct(book)),
-    setCountBook:book=>dispatch(setAmountBooks(book))
+    setCountBook: book => dispatch(setAmountBooks(book))
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Basket)

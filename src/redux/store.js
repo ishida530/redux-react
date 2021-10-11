@@ -5,7 +5,12 @@ import shortid from "shortid";
 
 
 let lengthArrayBooks = 0;
-const fun = arr => Object.values(arr).forEach(e => lengthArrayBooks += e.count);
+const fun = arr => Object.values(arr).forEach(e => {
+    
+    if(isNaN(e.count)){console.log("e.count",e.count)}
+    else return lengthArrayBooks += e.count
+    
+    });
 //selectors
 export const countInBasket = (state) => {
     lengthArrayBooks = 0;
@@ -18,9 +23,9 @@ export const basketList = (state) => state.basket;
 export const priceForAll=state=>{
     let price=0;
     state.basket.forEach(item=>{
-        price+=item.price*item.count
+        if(isNaN(item.count))return
+        else price+=item.price*item.count
     })
-console.log('funkcja',price)
     return price
 }
 export const getRequestInfo = state => state.request
@@ -64,7 +69,7 @@ const initialState = {
 }
 
 
-  const compare=( a, b )=> {
+  export const compare=( a, b )=> {
     if ( a.title < b.title ){
         return -1;
       }
@@ -115,8 +120,7 @@ const reducer = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 basket: [...state.basket.filter(item => {
-                    console.log('item',item.count)
-                    console.log('payload',payload.count)
+
                     counter = 0
 
                     if (item.key === payload.key) {
@@ -156,8 +160,7 @@ const reducer = (state = initialState, { type, payload }) => {
                     return {
                         ...state,
                         basket: [...state.basket.filter(item => {
-                            console.log('item',item.count)
-                            console.log('payload',payload.count)
+
                             counter = 0
         
                             // if (item.key === payload.key) {

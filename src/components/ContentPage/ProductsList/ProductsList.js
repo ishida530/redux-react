@@ -1,10 +1,10 @@
-import React from 'react'
+import React,{useState} from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import {
      Link
 } from "react-router-dom";
-import { checkBasket } from '../../../redux/store';
+import { checkBasket, compare } from '../../../redux/store';
 
 
 
@@ -15,12 +15,15 @@ const ContainerList = styled.div`
     h2{
         text-align: center;
     }
-    ul{  
+    >div{
+        display: flex;
+        justify-content: center;
+    }
+    ul.tiles{  
         display:flex;
         flex-wrap: wrap;  
         justify-content:center;
         li{list-style:none;
-            max-height: 330px;
             max-width: 150px;
             display: flex;
             flex-direction: column;
@@ -54,14 +57,40 @@ const ContainerList = styled.div`
                 text-transform: uppercase;
                 font-weight: 500;
             }
+            span{
+                text-align:center;margin-bottom:10px
+            }
     }
 }
+    ul.list{
+        li{list-style:none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-direction: row;
+            padding: 20px;
+            margin: 15px;
+            border-radius: 5px;
+            background-color: rgba(222, 222, 222, 0.5);
+            box-shadow: 5px 5px 5px #888888;
+            text-decoration: none;
+            color: #000;
+            flex-grow: 1;
+            img{
+                max-height: 200px;
+                width:auto;
+            }
+        }
 
+    }
 `;
 
 
 
 const ProductsList = ({ data,addBook }) => {
+    const [listMenu, setListMenu] = useState(false);
+    const [tilesMenu, setTilesMenu] = useState(true)
+    const [searchValue, setSearchValue] = useState("")
     const handleOnClik=(e,book)=>{
         e.preventDefault();
         addBook({
@@ -72,21 +101,31 @@ const ProductsList = ({ data,addBook }) => {
             price: book.price,
         })
         }
-    const list = data.books.map(item => {
+    const list = data.books.filter(item => item.title.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())).map(item => {
         return (
             <li key={item.key}>
                 <img src={item.simple_thumb} alt="Logo" />
                 <h4>{item.title}</h4>
+                <span>{item.price} PLN</span>
                 <Link to={`/product/${item.key}`}>Zobacz</Link>
                 <button onClick={e=>handleOnClik(e,item)}> Dodaj do koszyka</button>
             </li>)
-    })
+    }).sort(compare)
+    const handleOnChange=(e)=>{
+        setSearchValue(e.target.value)
+    }
     return (
         <ContainerList>
+      
             <h2>
                 Lista produktów
-            </h2>
-            <ul>
+            </h2>    
+               
+            <button onClick={()=>{setListMenu(true);setTilesMenu(false)}}>LISTA</button>
+            <button onClick={()=>{setListMenu(false);setTilesMenu(true)}}>KAFELKI</button>
+       
+            <div>Szukaj: <input onChange={(e)=>handleOnChange(e)}/></div>
+            <ul className={`${listMenu ? 'list' : 'tiles'}`}>
                 {list}
             </ul>
         </ContainerList>

@@ -12,13 +12,13 @@ const Product = ({ booksArray, addBook }) => {
 
 
     const handleOnChange = (e) => {
-        console.log('aa',e.target.value)
-        console.log('disabledBtn',disabledBtn)
+
         parseInt(e.target.value) === 0 || e.target.value.length===0 ? setDisabledBtn(true) : setDisabledBtn(false) 
         setCount(e.target.value)
     }
     const handleSubmit = (e, book) => {
         e.preventDefault();
+
         return addBook({
             key: book.key,
             img: book.simple_thumb,
@@ -29,6 +29,7 @@ const Product = ({ booksArray, addBook }) => {
 
     }
     let singleProduct = booksArray.books.filter(item => item.key === searchId.id).map(book => <div key={searchId}>
+       
         <h1>{book.id}</h1>
         <img src={book.simple_thumb} alt="Logo" />
         <h4>{book.title}</h4>
