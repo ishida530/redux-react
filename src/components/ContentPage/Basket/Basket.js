@@ -5,18 +5,32 @@ import styled from 'styled-components';
 import { basketList, checkBasket, removeProduct, countInBasket, priceForAll, setAmountBooks } from '../../../redux/store'
 const DivWrapper = styled.div`
 padding: 15px 20px;
-ol{padding:0;
-li{
-display:flex;
-justify-content: space-between;
-margin: 15px;
-&>span{
-    width: 15%;
-}}}
-.sum{margin: 15px;
+    ol{
+        padding:0;
+        display: flex;
+        flex-direction: column;
+        li{
+        display:flex;
+        justify-content: space-between;
+        margin: 15px;
+        &>span{
+            width: 50%;
+        }
+        input{
+            width: 20%;
+        }
+        label{
+            width: 20%;
+        }
+        li:nth-last-child(1){
+            width: 10%;
+        }
+    }
+    }
+    .sum{margin: 15px;
 
-    font-size: 24px;
-}
+        font-size: 24px;
+    }
 `
 
 
@@ -85,9 +99,9 @@ const Basket = ({ basketList, countBook, removeBook, itemsBasket, price, setCoun
 
     const li = (item) => (
         <li key={item.key}>
-            <span>{item.title}.</span>
+            <span><b>Tytuł: </b>{item.title}.</span>
             <div>
-                <label><b> Ilośc sztuk:</b> <input type="number" value={item.count} onChange={e => handleOnChange(e, item)} onBlur={e => handleOnBlur(e, item)} /></label>
+                <label><b> Ilośc sztuk:</b> <input min={0} max={100} type="number" value={item.count} onChange={e => handleOnChange(e, item)} onBlur={e => handleOnBlur(e, item)} /></label>
                 <button onClick={e => handleIncrementBtn(e, item)}>+</button>
                 <button onClick={e => handleDecrementBtn(e, item)}>-</button>
             </div>
