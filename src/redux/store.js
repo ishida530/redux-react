@@ -69,7 +69,7 @@ const initialState = {
 }
 
 
-  export const compare=( a, b )=> {
+export const compare=( a, b )=> {
     if ( a.title < b.title ){
         return -1;
       }

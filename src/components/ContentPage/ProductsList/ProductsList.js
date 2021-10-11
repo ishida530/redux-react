@@ -4,8 +4,8 @@ import styled from 'styled-components'
 import {
      Link
 } from "react-router-dom";
-import { checkBasket, compare } from '../../../redux/store';
-
+import { checkBasket ,compare} from '../../../redux/store';
+import Select from 'react-select'
 
 
 
@@ -101,7 +101,22 @@ const ProductsList = ({ data,addBook }) => {
             price: book.price,
         })
         }
-    const list = data.books.filter(item => item.title.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())).map(item => {
+
+          function compareByPrice(a, b) {
+              console.log('numberss')
+            return a.price - b.price
+         }
+
+          const [filter, setFilter] = useState({
+              filter:compare
+          })
+          const options = [
+            { value: 'by Name', label: 'a-z',filter:()=> setFilter({filter:compare})},
+            { value: 'by Price', label: 'low-high price',filter:()=> setFilter({filter:compareByPrice}) }
+          ]
+        
+        
+    const list = data.books.filter(item => item.title.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())).sort(filter.filter).map(item => {
         return (
             <li key={item.key}>
                 <img src={item.simple_thumb} alt="Logo" />
@@ -110,17 +125,18 @@ const ProductsList = ({ data,addBook }) => {
                 <Link to={`/product/${item.key}`}>Zobacz</Link>
                 <button onClick={e=>handleOnClik(e,item)}> Dodaj do koszyka</button>
             </li>)
-    }).sort(compare)
+    });
     const handleOnChange=(e)=>{
         setSearchValue(e.target.value)
     }
     return (
         <ContainerList>
-      
+            
             <h2>
                 Lista produktów
             </h2>    
-               
+            <Select options={options} onChange={(e)=>setFilter({filter:e.filter})} />
+
             <button onClick={()=>{setListMenu(true);setTilesMenu(false)}}>LISTA</button>
             <button onClick={()=>{setListMenu(false);setTilesMenu(true)}}>KAFELKI</button>
        
