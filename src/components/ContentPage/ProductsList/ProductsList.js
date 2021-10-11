@@ -1,10 +1,10 @@
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import {
-     Link
+    Link
 } from "react-router-dom";
-import { checkBasket ,compare} from '../../../redux/store';
+import { checkBasket, compare } from '../../../redux/store';
 import Select from 'react-select'
 
 
@@ -87,11 +87,11 @@ const ContainerList = styled.div`
 
 
 
-const ProductsList = ({ data,addBook }) => {
+const ProductsList = ({ data, addBook }) => {
     const [listMenu, setListMenu] = useState(false);
     const [tilesMenu, setTilesMenu] = useState(true)
     const [searchValue, setSearchValue] = useState("")
-    const handleOnClik=(e,book)=>{
+    const handleOnClik = (e, book) => {
         e.preventDefault();
         addBook({
             key: book.key,
@@ -100,57 +100,72 @@ const ProductsList = ({ data,addBook }) => {
             count: 1,
             price: book.price,
         })
-        }
-
-          function compareByPrice(a, b) {
-              console.log('numberss')
-            return a.price - b.price
-         }
-
-          const [filter, setFilter] = useState({
-              filter:compare
-          })
-          const options = [
-            { value: 'by Name', label: 'a-z',filter:()=> setFilter({filter:compare})},
-            { value: 'by Price', label: 'low-high price',filter:()=> setFilter({filter:compareByPrice}) }
-          ]
-        
-        
-    const list = data.books.filter(item => item.title.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())).sort(filter.filter).map(item => {
-        return (
-            <li key={item.key}>
-                <img src={item.simple_thumb} alt="Logo" />
-                <h4>{item.title}</h4>
-                <span>{item.price} PLN</span>
-                <Link to={`/product/${item.key}`}>Zobacz</Link>
-                <button onClick={e=>handleOnClik(e,item)}> Dodaj do koszyka</button>
-            </li>)
-    });
-    const handleOnChange=(e)=>{
-        setSearchValue(e.target.value)
     }
-    return (
-        <ContainerList>
-            
-            <h2>
-                Lista produktów
-            </h2>    
-            <Select options={options} onChange={(e)=>setFilter({filter:e.filter})} />
 
-            <button onClick={()=>{setListMenu(true);setTilesMenu(false)}}>LISTA</button>
-            <button onClick={()=>{setListMenu(false);setTilesMenu(true)}}>KAFELKI</button>
-       
-            <div>Szukaj: <input onChange={(e)=>handleOnChange(e)}/></div>
-            <ul className={`${listMenu ? 'list' : 'tiles'}`}>
-                {list}
-            </ul>
-        </ContainerList>
-    )
+    function compareByPrice(a, b) {
+        console.log('numberss')
+        return a.price - b.price
+    }
+    function compareByPrice2(a, b) {
+        console.log('numberss')
+        return b.price - a.price
+    }
+     const compare2=( a, b )=> {
+        if ( a.title > b.title ){
+            return -1;
+          }
+          if ( a.title < b.title ){
+            return 1;
+          }
+          return 0;
+      }
+const [filter, setFilter] = useState({
+    filter: compare
+})
+
+const options = [
+    { value: 'by Name', label: 'a-z', filter: () => setFilter({ filter: compare }) },
+    { value: 'by Name z-a', label: 'z-a', filter: () => setFilter({ filter: compare2 }) },
+    { value: 'od najmniejszej', label: 'low-high price', filter: () => setFilter({ filter: compareByPrice }) },
+    { value: 'od nawiekszej', label: 'high-low price', filter: () => setFilter({ filter: compareByPrice2 }) }
+]
+
+
+const list = data.books.filter(item => item.title.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())).sort(filter.filter).map(item => {
+    return (
+        <li key={item.key}>
+            <img src={item.simple_thumb} alt="Logo" />
+            <h4>{item.title}</h4>
+            <span>{item.price} PLN</span>
+            <Link to={`/product/${item.key}`}>Zobacz</Link>
+            <button onClick={e => handleOnClik(e, item)}> Dodaj do koszyka</button>
+        </li>)
+});
+const handleOnChange = (e) => {
+    setSearchValue(e.target.value)
+}
+return (
+    <ContainerList>
+
+        <h2>
+            Lista produktów
+        </h2>
+        <Select options={options} onChange={(e) => setFilter({ filter: e.filter })} />
+
+        <button onClick={() => { setListMenu(true); setTilesMenu(false) }}>LISTA</button>
+        <button onClick={() => { setListMenu(false); setTilesMenu(true) }}>KAFELKI</button>
+
+        <div>Szukaj: <input onChange={(e) => handleOnChange(e)} /></div>
+        <ul className={`${listMenu ? 'list' : 'tiles'}`}>
+            {list}
+        </ul>
+    </ContainerList>
+)
 }
 const mapStateToProps = state => ({
     data: { ...state }
 })
-const mapDispatchToProps=dispatch=>({
-    addBook:(book) => dispatch(checkBasket(book))
+const mapDispatchToProps = dispatch => ({
+    addBook: (book) => dispatch(checkBasket(book))
 })
-export default connect(mapStateToProps,mapDispatchToProps)(ProductsList)
+export default connect(mapStateToProps, mapDispatchToProps)(ProductsList)
