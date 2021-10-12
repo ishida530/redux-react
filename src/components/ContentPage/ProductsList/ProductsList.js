@@ -6,18 +6,20 @@ import {
 } from "react-router-dom";
 import { checkBasket, compare } from '../../../redux/store';
 import Select from 'react-select'
+import ReactPaginate from 'react-paginate';
 
 
 
 const ContainerList = styled.div`
- margin: 0 auto;
+    margin: 0 auto;
     width: 90%;
     h2{
         text-align: center;
     }
     >div{
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
+        align-items: center;
     }
     ul.tiles{  
         display:flex;
@@ -77,20 +79,90 @@ const ContainerList = styled.div`
             color: #000;
             flex-grow: 1;
             img{
-                max-height: 200px;
+                max-height: 120px;
                 width:auto;
             }
         }
 
     }
+    .paginationBtns{
+        width: 100%;
+        height: 40px;
+        list-style: none;
+        display: flex;
+        justify-content: center;
+    }
+    .paginationBtns a{
+        padding: 5px 10px;
+        margin: 10px;
+        border-radius: 5px;
+        border:2px solid #ddd;
+        color:black;
+        cursor: pointer;
+        transition: .3s;
+    }
+    .paginationBtns a:hover{
+        color: white;
+        background-color:#ddd
+    }
+    .paginationActive a{
+        color: white;
+        background-color:#ddd;
+    }
 `;
 
 
 
+
 const ProductsList = ({ data, addBook }) => {
+    function compareByPrice(a, b) {
+        console.log('numberss')
+        return a.price - b.price
+    }
+    function compareByPrice2(a, b) {
+        console.log('numberss')
+        return b.price - a.price
+    }
+    const compare2 = (a, b) => {
+        if (a.title > b.title) {
+            return -1;
+        }
+        if (a.title < b.title) {
+            return 1;
+        }
+        return 0;
+    }
+    const [filterSort, setFilter] = useState({
+        filter: compare
+    })
+
     const [listMenu, setListMenu] = useState(false);
     const [tilesMenu, setTilesMenu] = useState(true)
     const [searchValue, setSearchValue] = useState("")
+
+    const [books, setBooks] = useState(data.books)
+    const [pageNumber, setPageNumber] = useState(0)
+
+    const [itemsPerPage, setItemsPerPage] = useState(15)
+const [activePage, setActivePage] = useState(0)
+    const pagesVisited = pageNumber * itemsPerPage;
+    const pageCount = Math.ceil(books.length / itemsPerPage)
+
+    const displayBooks = books.slice(pagesVisited, pagesVisited + itemsPerPage)
+        .map(item => {
+            return (
+                <li key={item.key}>
+                    <img src={item.simple_thumb} alt="Logo" />
+                    <h4>{item.title}</h4>
+                    <span>{item.price} PLN</span>
+                    <Link to={`/product/${item.key}`}>Zobacz</Link>
+                    <button onClick={e => handleOnClik(e, item)}> Dodaj do koszyka</button>
+                </li>
+            )
+        });
+//.filter(item => item.title.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()))
+        // .sort(filter.filter)
+
     const handleOnClik = (e, book) => {
         e.preventDefault();
         addBook({
@@ -102,65 +174,83 @@ const ProductsList = ({ data, addBook }) => {
         })
     }
 
-    function compareByPrice(a, b) {
-        console.log('numberss')
-        return a.price - b.price
+
+    const options = [
+        { value: 'by Name', label: 'a-z', filter:  compare },
+        { value: 'by Name z-a', label: 'z-a', filter: compare2 },
+        { value: 'od najmniejszej', label: 'min-max cena', filter: compareByPrice  },
+        { value: 'od nawiekszej', label: 'max-min cena', filter: compareByPrice2  }
+    ]
+    const itemsOnPage = [
+        { value: '5', label: '5', itemOnPage: () => setItemsPerPage(5) },
+        { value: '10', label: '10', itemOnPage: () => setItemsPerPage(10) },
+        { value: '15', label: '15', itemOnPage: () => setItemsPerPage(15) },
+        { value: '20', label: '20', itemOnPage: () => setItemsPerPage(20) },
+        { value: '25', label: '25', itemOnPage: () => setItemsPerPage(25) },
+        { value: '50', label: '50', itemOnPage: () => setItemsPerPage(50) },
+        { value: '100', label: '100', itemOnPage: () => setItemsPerPage(100) },
+        { value: 'wszystkie', label: 'wszystkie', itemOnPage: () => setItemsPerPage(books.length) },
+    ]
+    const currentPage = ({ selected }) => {
+        setActivePage(selected)
     }
-    function compareByPrice2(a, b) {
-        console.log('numberss')
-        return b.price - a.price
+    const handleOnChange = (e) => {
+        currentPage({selected:0})
+        setSearchValue(e.target.value)
+        changePage({selected:0})
+        setBooks(data.books.filter(item =>{ console.log('searchValue',searchValue); return item.title.toLocaleLowerCase().includes(e.target.value.toLocaleLowerCase())}))
     }
-     const compare2=( a, b )=> {
-        if ( a.title > b.title ){
-            return -1;
-          }
-          if ( a.title < b.title ){
-            return 1;
-          }
-          return 0;
-      }
-const [filter, setFilter] = useState({
-    filter: compare
-})
-
-const options = [
-    { value: 'by Name', label: 'a-z', filter: () => setFilter({ filter: compare }) },
-    { value: 'by Name z-a', label: 'z-a', filter: () => setFilter({ filter: compare2 }) },
-    { value: 'od najmniejszej', label: 'low-high price', filter: () => setFilter({ filter: compareByPrice }) },
-    { value: 'od nawiekszej', label: 'high-low price', filter: () => setFilter({ filter: compareByPrice2 }) }
-]
-
-
-const list = data.books.filter(item => item.title.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())).sort(filter.filter).map(item => {
+    const changePage = ({ selected }) => {
+        setPageNumber(selected)
+    }
+   
     return (
-        <li key={item.key}>
-            <img src={item.simple_thumb} alt="Logo" />
-            <h4>{item.title}</h4>
-            <span>{item.price} PLN</span>
-            <Link to={`/product/${item.key}`}>Zobacz</Link>
-            <button onClick={e => handleOnClik(e, item)}> Dodaj do koszyka</button>
-        </li>)
-});
-const handleOnChange = (e) => {
-    setSearchValue(e.target.value)
-}
-return (
-    <ContainerList>
+        <ContainerList>
+            <h2>Lista produktów</h2>
+            <div>
+                <label>Szukaj:
+                    <input value={searchValue} onChange={handleOnChange} />
+                    <button onClick={() => {setSearchValue("");return setBooks(data.books)}}>X</button>
+                </label>
+                <div>
+                    <button onClick={() => { setListMenu(true); setTilesMenu(false) }}>LISTA</button>
+                    <button onClick={() => { setListMenu(false); setTilesMenu(true) }}>KAFELKI</button>
+                </div>
+                <Select options={itemsOnPage} onChange={(e) => {
+                    e.itemOnPage()
+                }} />
 
-        <h2>
-            Lista produktów
-        </h2>
-        <Select options={options} onChange={(e) => setFilter({ filter: e.filter })} />
+                <Select options={options} onChange={(e) => {
+                    currentPage({selected:0})
+                    changePage({selected:0})
+                    setBooks(data.books.sort(e.filter)
+                    .filter(item =>{console.log('searchValue',searchValue);
+                         return item.title.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())})
+                         )
+                         console.log(books)
 
-        <button onClick={() => { setListMenu(true); setTilesMenu(false) }}>LISTA</button>
-        <button onClick={() => { setListMenu(false); setTilesMenu(true) }}>KAFELKI</button>
+                }} />
+            </div>
+            <ul className={`${listMenu ? 'list' : 'tiles'}`}>
+                {displayBooks}
+            </ul>
+            <ReactPaginate
+                previousLabel={'Previous'}
+                nextLabel={'Next'}
+                pageCount={pageCount}
+                onPageChange={changePage}
+                containerClassName={"paginationBtns"}
+                previousLinkClassName={'previousBtn'}
+                nextLinkClassName={'nextBtn'}
+                disabledClassName={'paginationDisabled'}
+                activeClassName={'paginationActive'}
+                pageRangeDisplayed={5}
+                initialPage={0}
+                onPageActive={currentPage}
+            />
 
-        <div>Szukaj: <input onChange={(e) => handleOnChange(e)} /></div>
-        <ul className={`${listMenu ? 'list' : 'tiles'}`}>
-            {list}
-        </ul>
-    </ContainerList>
-)
+        </ContainerList>
+    )
 }
 const mapStateToProps = state => ({
     data: { ...state }
