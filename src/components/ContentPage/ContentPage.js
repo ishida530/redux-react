@@ -12,6 +12,7 @@ const Page = () => {
         <>
             <Switch>
                 <Route exact path="/" component={HomePage} />
+                <Route exact path="/redux-react" component={HomePage} />
                 <Route path="/products" component={ProductList} />
                 <Route path="/product/:id" component={ProductsListItem} />
                 <Route path="/contact" component={ContactList} />
