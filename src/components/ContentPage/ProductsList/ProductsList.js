@@ -7,6 +7,7 @@ import {
 import { checkBasket, compare } from '../../../redux/store';
 import Select from 'react-select'
 import ReactPaginate from 'react-paginate';
+import { compareZA, sortMinMaxPrice, sortMaxMinPrice } from './sortFunctions';
 
 
 
@@ -115,23 +116,7 @@ const ContainerList = styled.div`
 
 
 const ProductsList = ({ data, addBook }) => {
-    function compareByPrice(a, b) {
-        console.log('numberss')
-        return a.price - b.price
-    }
-    function compareByPrice2(a, b) {
-        console.log('numberss')
-        return b.price - a.price
-    }
-    const compare2 = (a, b) => {
-        if (a.title > b.title) {
-            return -1;
-        }
-        if (a.title < b.title) {
-            return 1;
-        }
-        return 0;
-    }
+
     const [filterSort, setFilter] = useState({
         filter: compare
     })
@@ -144,7 +129,7 @@ const ProductsList = ({ data, addBook }) => {
     const [pageNumber, setPageNumber] = useState(0)
 
     const [itemsPerPage, setItemsPerPage] = useState(15)
-const [activePage, setActivePage] = useState(0)
+    const [activePage, setActivePage] = useState(0)
     const pagesVisited = pageNumber * itemsPerPage;
     const pageCount = Math.ceil(books.length / itemsPerPage)
 
@@ -160,8 +145,8 @@ const [activePage, setActivePage] = useState(0)
                 </li>
             )
         });
-//.filter(item => item.title.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()))
-        // .sort(filter.filter)
+    //.filter(item => item.title.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()))
+    // .sort(filter.filter)
 
     const handleOnClik = (e, book) => {
         e.preventDefault();
@@ -176,10 +161,10 @@ const [activePage, setActivePage] = useState(0)
 
 
     const options = [
-        { value: 'by Name', label: 'a-z', filter:  compare },
-        { value: 'by Name z-a', label: 'z-a', filter: compare2 },
-        { value: 'od najmniejszej', label: 'min-max cena', filter: compareByPrice  },
-        { value: 'od nawiekszej', label: 'max-min cena', filter: compareByPrice2  }
+        { value: 'by Name', label: 'a-z', filter: compare },
+        { value: 'by Name z-a', label: 'z-a', filter: compareZA },
+        { value: 'od najmniejszej', label: 'min-max cena', filter: sortMinMaxPrice },
+        { value: 'od nawiekszej', label: 'max-min cena', filter: sortMaxMinPrice }
     ]
     const itemsOnPage = [
         { value: '5', label: '5', itemOnPage: () => setItemsPerPage(5) },
@@ -195,22 +180,22 @@ const [activePage, setActivePage] = useState(0)
         setActivePage(selected)
     }
     const handleOnChange = (e) => {
-        currentPage({selected:0})
+        currentPage({ selected: 0 })
         setSearchValue(e.target.value)
-        changePage({selected:0})
-        setBooks(data.books.filter(item =>{ console.log('searchValue',searchValue); return item.title.toLocaleLowerCase().includes(e.target.value.toLocaleLowerCase())}))
+        changePage({ selected: 0 })
+        setBooks(data.books.filter(item => { console.log('searchValue', searchValue); return item.title.toLocaleLowerCase().includes(e.target.value.toLocaleLowerCase()) }))
     }
     const changePage = ({ selected }) => {
         setPageNumber(selected)
     }
-   
+
     return (
         <ContainerList>
             <h2>Lista produktów</h2>
             <div>
                 <label>Szukaj:
                     <input value={searchValue} onChange={handleOnChange} />
-                    <button onClick={() => {setSearchValue("");return setBooks(data.books)}}>X</button>
+                    <button onClick={() => { setSearchValue(""); return setBooks(data.books) }}>X</button>
                 </label>
                 <div>
                     <button onClick={() => { setListMenu(true); setTilesMenu(false) }}>LISTA</button>
@@ -221,13 +206,15 @@ const [activePage, setActivePage] = useState(0)
                 }} />
 
                 <Select options={options} onChange={(e) => {
-                    currentPage({selected:0})
-                    changePage({selected:0})
+                    currentPage({ selected: 0 })
+                    changePage({ selected: 0 })
                     setBooks(data.books.sort(e.filter)
-                    .filter(item =>{console.log('searchValue',searchValue);
-                         return item.title.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())})
-                         )
-                         console.log(books)
+                        .filter(item => {
+                            console.log('searchValue', searchValue);
+                            return item.title.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())
+                        })
+                    )
+                    console.log(books)
 
                 }} />
             </div>
