@@ -20,6 +20,9 @@ const ContainerList = styled.div`
         display: flex;
         justify-content: space-between;
         align-items: center;
+        .wrapperSelect{
+            width: 100px;
+        }
     }
     ul.tiles{  
         display:flex;
@@ -138,7 +141,7 @@ const ProductsList = () => {
     const displayBooks = books.slice(pagesVisited, pagesVisited + itemsPerPage)
         .map(item => {
             console.log(item)
-            const {key,simple_thumb,title,price,count}=item;
+            const { key, simple_thumb, title, price, count } = item;
             return (
                 <li key={key}>
                     <img src={simple_thumb} alt="Logo" />
@@ -146,7 +149,7 @@ const ProductsList = () => {
                     <span>{price} PLN</span>
                     <Link to={`/product/${key}`}>Zobacz</Link>
                     <button onClick={e => handleOnClik(e, item)}> Dodaj do koszyka</button>
-                    <span className='product__span-alert'>{count > 0 ? 'Dodano: '+count+"szt.":null}</span>
+                    <span className='product__span-alert'>{count > 0 ? 'Dodano: ' + count + "szt." : null}</span>
                 </li>
             )
         }).sort(sortAZ);
@@ -193,21 +196,22 @@ const ProductsList = () => {
 
                     <button onClick={() => handleDisplayList(!listMenu, !tilesMenu)}>{listMenu ? 'Kafelki' : "Lista"}</button>
                 </div>
-
-                <Select defaultValue={itemsOnPageOptions[2]} options={itemsOnPageOptions} onChange={(e) => {
-                    e.value === 'all' ? setItemsPerPage(books.length) : setItemsPerPage(e.value)
-
-                }} />
-
-                <Select defaultValue={sortOptions[0]}  options={sortOptions} onChange={(e) => {
-                    currentPage({ selected: 0 })
-                    changePage({ selected: 0 })
-                    setBooks(data.sort(e.filter)
-                        .filter(item => {
-                            return item.title.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())
-                        })
-                    )
-                }} />
+                <div className='wrapperSelect' >
+                    <Select autosize={true} defaultValue={itemsOnPageOptions[2]} options={itemsOnPageOptions} onChange={(e) => {
+                        e.value === 'all' ? setItemsPerPage(books.length) : setItemsPerPage(e.value)
+                    }} />
+                    </div>
+                <div className='wrapperSelect'>
+                    <Select autosize={true} defaultValue={sortOptions[0]} options={sortOptions} onChange={(e) => {
+                        currentPage({ selected: 0 })
+                        changePage({ selected: 0 })
+                        setBooks(data.sort(e.filter)
+                            .filter(item => {
+                                return item.title.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())
+                            })
+                        )
+                    }} />
+                </div>
             </div>
             <ul className={`${listMenu ? 'list' : 'tiles'}`}>
                 {displayBooks}
