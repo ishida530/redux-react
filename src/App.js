@@ -4,17 +4,22 @@ import React, { useEffect } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import ContentPage from './components/ContentPage/ContentPage'
 import Header from './components/Header/Header';
-import { connect } from 'react-redux';
-import { fetchbooks, getRequestInfo } from './redux/store';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchBooks, getRequestInfo } from './redux/booksRedux';
 import Loader from "react-loader-spinner";
 
 
 
 
 
-const App = ({udpateBook,request}) => {
+const App = () => {
+  const request = useSelector(state => getRequestInfo(state))
+  const dispatch = useDispatch() 
+  const getAllBooks = () => dispatch(fetchBooks())
+
+
   useEffect(() => {
-    udpateBook()
+    getAllBooks()
   }, [])
   return (
     <Router >
@@ -25,10 +30,5 @@ const App = ({udpateBook,request}) => {
     </Router>
   )
 }
-const mapDispatchToProps=dispatch=>({
-  udpateBook:()=>dispatch(fetchbooks())
-})
-const mapStateToProps=state=>({
-  request:getRequestInfo(state)
-})
-export default connect(mapStateToProps,mapDispatchToProps)(App)
+
+export default App

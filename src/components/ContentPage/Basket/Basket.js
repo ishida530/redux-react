@@ -1,8 +1,7 @@
-import React, { useState, useEffect, createRef, useRef } from 'react'
-import { connect } from 'react-redux'
-import shortid from 'shortid';
+import React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components';
-import { basketList, checkBasket, removeProduct, countInBasket, priceForAll, setAmountBooks } from '../../../redux/store'
+import { basketList, checkBasket, removeProduct, countInBasket, priceForAll, setAmountBooks } from '../../../redux/booksRedux'
 const DivWrapper = styled.div`
 padding: 15px 20px;
     ol{
@@ -34,12 +33,21 @@ padding: 15px 20px;
 `
 
 
-const Basket = ({ basketList, countBook, removeBook, itemsBasket, price, setCountBook }) => {
+const Basket = () => {
 
+    const basketState = useSelector(state =>basketList(state))
+    const itemsBasket = useSelector(state => countInBasket(state))
+    const price = useSelector(state => priceForAll(state))
 
+    const dispatch = useDispatch() 
+    const incrementCountBook = book => dispatch(checkBasket(book))
+    const removeBook = book => dispatch(removeProduct(book))
+    const setCountBook = book => dispatch(setAmountBooks(book))
+
+    
     const handleIncrementBtn = (e, book) => {
         e.preventDefault()
-        countBook({
+        incrementCountBook({
             key: book.key,
             img: book.simple_thumb,
             title: book.title,
@@ -49,7 +57,7 @@ const Basket = ({ basketList, countBook, removeBook, itemsBasket, price, setCoun
     }
     const handleDecrementBtn = (e, book) => {
         e.preventDefault()
-        if (book.count > 1) countBook({
+        if (book.count > 1) incrementCountBook({
             key: book.key,
             img: book.simple_thumb,
             title: book.title,
@@ -82,7 +90,6 @@ const Basket = ({ basketList, countBook, removeBook, itemsBasket, price, setCoun
                         price: book.price
                     })
                     e.target.focus()
-
                 }
             }, 500)
         }
@@ -116,20 +123,13 @@ const Basket = ({ basketList, countBook, removeBook, itemsBasket, price, setCoun
     return (
         <DivWrapper>
             <ol>
-                {itemsBasket === 0 ? <h1>Koszyk jest pusty</h1> : basketList.map(item => li(item))}
+                {itemsBasket === 0 ? <h1>Koszyk jest pusty</h1> : basketState.map(item => li(item))}
             </ol>
             <p className="sum"><b>SUMA:</b> <span>{price.toFixed(2)}PLN</span></p>
         </DivWrapper>
     )
 }
-const mapStateToProps = state => ({
-    basketList: basketList(state),
-    itemsBasket: countInBasket(state),
-    price: priceForAll(state)
-})
-const mapDispatchToProps = dispatch => ({
-    countBook: book => dispatch(checkBasket(book)),
-    removeBook: book => dispatch(removeProduct(book)),
-    setCountBook: book => dispatch(setAmountBooks(book))
-})
-export default connect(mapStateToProps, mapDispatchToProps)(Basket)
+
+
+export default Basket
+

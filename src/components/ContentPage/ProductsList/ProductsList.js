@@ -1,16 +1,13 @@
 import React, { useState } from 'react'
-import { connect } from 'react-redux'
+import {  useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import {
     Link
 } from "react-router-dom";
-import { checkBasket, compare } from '../../../redux/store';
+import { checkBasket,allBooks, } from '../../../redux/booksRedux';
 import Select from 'react-select'
 import ReactPaginate from 'react-paginate';
-import { compareZA, sortMinMaxPrice, sortMaxMinPrice } from './sortFunctions';
-
-
-
+import  {sortOptions,itemsOnPage} from '../../../redux/initialState'
 const ContainerList = styled.div`
     margin: 0 auto;
     width: 90%;
@@ -112,26 +109,23 @@ const ContainerList = styled.div`
     }
 `;
 
+const ProductsList = () => {
 
-
-
-const ProductsList = ({ data, addBook }) => {
-
-    const [filterSort, setFilter] = useState({
-        filter: compare
-    })
+    const data = useSelector(state => allBooks(state))
+    
+    const dispatch = useDispatch() 
+    const addBook = book => dispatch(checkBasket(book))
 
     const [listMenu, setListMenu] = useState(false);
     const [tilesMenu, setTilesMenu] = useState(true)
     const [searchValue, setSearchValue] = useState("")
-
-    const [books, setBooks] = useState(data.books)
+    const [books, setBooks] = useState(data)
     const [pageNumber, setPageNumber] = useState(0)
-
     const [itemsPerPage, setItemsPerPage] = useState(15)
     const [activePage, setActivePage] = useState(0)
     const pagesVisited = pageNumber * itemsPerPage;
     const pageCount = Math.ceil(books.length / itemsPerPage)
+
 
     const displayBooks = books.slice(pagesVisited, pagesVisited + itemsPerPage)
         .map(item => {
@@ -145,8 +139,7 @@ const ProductsList = ({ data, addBook }) => {
                 </li>
             )
         });
-    //.filter(item => item.title.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()))
-    // .sort(filter.filter)
+
 
     const handleOnClik = (e, book) => {
         e.preventDefault();
@@ -158,24 +151,6 @@ const ProductsList = ({ data, addBook }) => {
             price: book.price,
         })
     }
-
-
-    const options = [
-        { value: 'by Name', label: 'a-z', filter: compare },
-        { value: 'by Name z-a', label: 'z-a', filter: compareZA },
-        { value: 'od najmniejszej', label: 'min-max cena', filter: sortMinMaxPrice },
-        { value: 'od nawiekszej', label: 'max-min cena', filter: sortMaxMinPrice }
-    ]
-    const itemsOnPage = [
-        { value: '5', label: '5', itemOnPage: () => setItemsPerPage(5) },
-        { value: '10', label: '10', itemOnPage: () => setItemsPerPage(10) },
-        { value: '15', label: '15', itemOnPage: () => setItemsPerPage(15) },
-        { value: '20', label: '20', itemOnPage: () => setItemsPerPage(20) },
-        { value: '25', label: '25', itemOnPage: () => setItemsPerPage(25) },
-        { value: '50', label: '50', itemOnPage: () => setItemsPerPage(50) },
-        { value: '100', label: '100', itemOnPage: () => setItemsPerPage(100) },
-        { value: 'wszystkie', label: 'wszystkie', itemOnPage: () => setItemsPerPage(books.length) },
-    ]
     const currentPage = ({ selected }) => {
         setActivePage(selected)
     }
@@ -201,21 +176,19 @@ const ProductsList = ({ data, addBook }) => {
                     <button onClick={() => { setListMenu(true); setTilesMenu(false) }}>LISTA</button>
                     <button onClick={() => { setListMenu(false); setTilesMenu(true) }}>KAFELKI</button>
                 </div>
+                
                 <Select options={itemsOnPage} onChange={(e) => {
                     e.itemOnPage()
                 }} />
 
-                <Select options={options} onChange={(e) => {
+                <Select options={sortOptions} onChange={(e) => {
                     currentPage({ selected: 0 })
                     changePage({ selected: 0 })
-                    setBooks(data.books.sort(e.filter)
+                    setBooks(data.sort(e.filter)
                         .filter(item => {
-                            console.log('searchValue', searchValue);
                             return item.title.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())
                         })
                     )
-                    console.log(books)
-
                 }} />
             </div>
             <ul className={`${listMenu ? 'list' : 'tiles'}`}>
@@ -239,10 +212,4 @@ const ProductsList = ({ data, addBook }) => {
         </ContainerList>
     )
 }
-const mapStateToProps = state => ({
-    data: { ...state }
-})
-const mapDispatchToProps = dispatch => ({
-    addBook: (book) => dispatch(checkBasket(book))
-})
-export default connect(mapStateToProps, mapDispatchToProps)(ProductsList)
+export default ProductsList

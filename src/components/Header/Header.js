@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { countInBasket } from '../../redux/store';
+import { countInBasket } from '../../redux/booksRedux';
 
 const Navigation = styled.header`
 height: 10%;
