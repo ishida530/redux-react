@@ -34,7 +34,7 @@ const ContainerList = styled.div`
             flex-direction: column;
             padding: 20px 20px 0px 20px;
             margin: 10px;
-            border-radius: 5%;
+            border-radius: 5px;
             width: 120px;
             background-color: rgba(222, 222, 222, 0.5);
             box-shadow: 5px 5px 5px #888888;
