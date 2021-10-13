@@ -34,7 +34,7 @@ background-color: #ddd;
 
 const itemsNaviagation = [
     { name: "start", path: "/", exact: true },
-    { name: "pordukty", path: "/products" },
+    { name: "produkty", path: "/products" },
     { name: "kontakt", path: "/contact" },
     { name: "koszyk", path: "/basket" }]
     
