@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
-import {  useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import {
     Link
 } from "react-router-dom";
-import { checkBasket,allBooks, } from '../../../redux/booksRedux';
+import { checkBasket, allBooks, } from '../../../redux/booksRedux';
 import Select from 'react-select'
 import ReactPaginate from 'react-paginate';
-import  {sortOptions,itemsOnPageOptions} from '../../../redux/initialState'
+import { sortOptions, itemsOnPageOptions } from '../../../redux/initialState'
+import { sortAZ } from './sortFunctions';
 
 const ContainerList = styled.div`
     margin: 0 auto;
@@ -113,8 +114,8 @@ const ContainerList = styled.div`
 const ProductsList = () => {
 
     const data = useSelector(state => allBooks(state))
-    
-    const dispatch = useDispatch() 
+
+    const dispatch = useDispatch()
     const addBook = book => dispatch(checkBasket(book))
 
     const [listMenu, setListMenu] = useState(false);
@@ -130,29 +131,30 @@ const ProductsList = () => {
 
     const displayBooks = books.slice(pagesVisited, pagesVisited + itemsPerPage)
         .map(item => {
+            const {key,simple_thumb,title,price}=item;
             return (
-                <li key={item.key}>
-                    <img src={item.simple_thumb} alt="Logo" />
-                    <h4>{item.title}</h4>
-                    <span>{item.price} PLN</span>
-                    <Link to={`/product/${item.key}`}>Zobacz</Link>
+                <li key={key}>
+                    <img src={simple_thumb} alt="Logo" />
+                    <h4>{title}</h4>
+                    <span>{price} PLN</span>
+                    <Link to={`/product/${key}`}>Zobacz</Link>
                     <button onClick={e => handleOnClik(e, item)}> Dodaj do koszyka</button>
                 </li>
             )
-        });
+        }).sort(sortAZ);
 
 
     const handleOnClik = (e, book) => {
         e.preventDefault();
-        const {key,simple_thumb,title,price}=book
-        return(
-        addBook({
-            key: key,
-            img: simple_thumb,
-            title: title,
-            count: 1,
-            price: price,
-        })
+        const { key, simple_thumb, title, price } = book
+        return (
+            addBook({
+                key: key,
+                img: simple_thumb,
+                title: title,
+                count: 1,
+                price: price,
+            })
         )
     }
     const currentPage = ({ selected }) => {
@@ -162,17 +164,15 @@ const ProductsList = () => {
         currentPage({ selected: 0 })
         setSearchValue(e.target.value)
         changePage({ selected: 0 })
-        setBooks(data.filter(item => item.title.toLocaleLowerCase().includes(e.target.value.toLocaleLowerCase()) ))
+        setBooks(data.filter(item => item.title.toLocaleLowerCase().includes(e.target.value.toLocaleLowerCase())))
     }
     const changePage = ({ selected }) => {
         setPageNumber(selected)
     }
 
-const handleDisplayList=(list,tiles)=>{
-
-    return setListMenu(list)&& setTilesMenu(tiles)
-     
-}
+    const handleDisplayList = (list, tiles) => {
+        return setListMenu(list) && setTilesMenu(tiles)
+    }
     return (
         <ContainerList>
             <h2>Lista produktów</h2>
@@ -183,15 +183,15 @@ const handleDisplayList=(list,tiles)=>{
                 </label>
                 <div>
 
-                    <button onClick={()=>handleDisplayList(!listMenu,!tilesMenu)}>{listMenu?'Kafelki':"Lista"}</button>
+                    <button onClick={() => handleDisplayList(!listMenu, !tilesMenu)}>{listMenu ? 'Kafelki' : "Lista"}</button>
                 </div>
-                
-                <Select options={itemsOnPageOptions} onChange={(e) => {
-                    e.value==='all'?setItemsPerPage(books.length):setItemsPerPage(e.value)
-                    
+
+                <Select defaultValue={itemsOnPageOptions[2]} options={itemsOnPageOptions} onChange={(e) => {
+                    e.value === 'all' ? setItemsPerPage(books.length) : setItemsPerPage(e.value)
+
                 }} />
 
-                <Select options={sortOptions} onChange={(e) => {
+                <Select defaultValue={sortOptions[0]}  options={sortOptions} onChange={(e) => {
                     currentPage({ selected: 0 })
                     changePage({ selected: 0 })
                     setBooks(data.sort(e.filter)

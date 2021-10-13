@@ -9,7 +9,7 @@ const Product = () => {
     const dispatch = useDispatch()
     const addBook = book => dispatch(checkBasket(book))
 
-    const [count, setCount] = useState(1)
+    const [countBook, setCountBook] = useState(1)
     const [disabledBtn, setDisabledBtn] = useState(false)
     const searchId = useParams()
 
@@ -17,23 +17,21 @@ const Product = () => {
     const handleOnChange = (e) => {
         const tagret = e.target.value
         parseInt(tagret) === 0 || tagret.length === 0 || tagret < 0 ? setDisabledBtn(true) : setDisabledBtn(false)
-        setCount(tagret)
+        setCountBook(tagret)
     }
     const handleSubmit = (e, book) => {
         e.preventDefault();
         setDisabledBtn(true)
-        setCount(1)
+        setCountBook(1)
         const { key, simple_thumb, title, price } = book
         return (
-            addBook(
-                {
+            addBook({
                     key: key,
                     img: simple_thumb,
                     title: title,
-                    count: parseInt(count),
+                    count: parseInt(countBook),
                     price: price,
-                }
-            )
+                })
         )
     }
     const singleProduct = data.filter(item => item.key === searchId.id).map(book => {
@@ -44,8 +42,8 @@ const Product = () => {
                 <h1>{id}</h1>
                 <img src={simple_thumb} alt="Logo" />
                 <h4>{title}</h4>
-                <form onSubmit={(e) => { return handleSubmit(e, book) && setCount(1) }}>
-                    <input type="number" min={1}  value={count} onChange={e => handleOnChange(e)} />
+                <form onSubmit={(e) => { return handleSubmit(e, book) && setCountBook(1) }}>
+                    <input type="number" min={1} value={countBook} onChange={e => handleOnChange(e)} />
                     <button disabled={disabledBtn} type='submit'>Dodaj do koszyka</button>
                 </form>
             </div>

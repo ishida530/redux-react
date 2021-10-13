@@ -1,4 +1,4 @@
-import {initialState} from './initialState';
+import { initialState } from './initialState';
 import shortid from "shortid";
 import { sortAZ } from "../components/ContentPage/ProductsList/sortFunctions";
 
@@ -6,10 +6,10 @@ let lengthArrayBooks = 0;
 const incrementLengthItems = arr => Object.values(arr).forEach(e => {
     if (isNaN(e.count)) return
     else return lengthArrayBooks += e.count
-
 });
+
 //selectors
-export const allBooks=(state)=>state.books
+export const allBooks = (state) => state.books
 export const countInBasket = (state) => {
     lengthArrayBooks = 0;
     if (state.basket.length !== 0) incrementLengthItems(state.basket)
@@ -26,7 +26,6 @@ export const priceForAll = state => {
     return price
 }
 export const getRequestInfo = state => state.request
-
 
 
 const createActionName = name => `app/books/${name}`
@@ -64,18 +63,16 @@ export const fetchBooks = () => {
                     key: shortid().toString(),
                     price: (Math.random() * 100.00).toFixed(2),
                 })
-
             );
-
             dispatch(updateBooks(newData))
             dispatch(finishRequestWithSuccess())
         } catch (err) {
             console.error(err)
             dispatch(finishRequestWithError())
-
         }
     }
 }
+
 export const checkBasket = (book, state) => {
     return (dispatch) => {
         if (book.count === 0) {
@@ -103,7 +100,6 @@ export const reducer = (state = initialState, { type, payload }) => {
                     }
                     if (item.key !== payload.key) return item
                 }), payload].sort(sortAZ),
-
             }
         case REMOVE_BOOK_FROM_BASKET:
             return {
@@ -115,10 +111,9 @@ export const reducer = (state = initialState, { type, payload }) => {
                     }
                     if (item.key !== payload.key) return item
                 }), payload].sort(sortAZ),
-
             }
         case REMOVE_ALL_BOOK_FROM_BASKET:
-            return {...state, basket: [...state.basket.filter(item => item.key !== payload.key)].sort(sortAZ)}
+            return { ...state, basket: [...state.basket.filter(item => item.key !== payload.key)].sort(sortAZ) }
         case START_REQUEST:
             return { ...state, request: { pending: true, error: false, success: false } }
         case FINISH_REQUEST_WITH_SUCCESS:
@@ -126,7 +121,8 @@ export const reducer = (state = initialState, { type, payload }) => {
         case FINISH_REQUEST_WITH_ERROR:
             return { ...state, request: { pending: false, error: true, success: false } }
         case SET_AMOUNT_BOOK:
-            return {...state,basket: [...state.basket.filter(item => {
+            return {
+                ...state, basket: [...state.basket.filter(item => {
                     counter = 0
                     if (item.key !== payload.key) return item
                 }), payload].sort(sortAZ),
