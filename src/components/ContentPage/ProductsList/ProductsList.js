@@ -168,6 +168,11 @@ const ProductsList = () => {
         setPageNumber(selected)
     }
 
+const handleDisplayList=(list,tiles)=>{
+
+    return setListMenu(list)&& setTilesMenu(tiles)
+     
+}
     return (
         <ContainerList>
             <h2>Lista produktów</h2>
@@ -177,8 +182,8 @@ const ProductsList = () => {
                     <button onClick={() => { setSearchValue(""); return setBooks(data) }}>X</button>
                 </label>
                 <div>
-                    <button onClick={() => { setListMenu(true); setTilesMenu(false) }}>LISTA</button>
-                    <button onClick={() => { setListMenu(false); setTilesMenu(true) }}>KAFELKI</button>
+
+                    <button onClick={()=>handleDisplayList(!listMenu,!tilesMenu)}>{listMenu?'Kafelki':"Lista"}</button>
                 </div>
                 
                 <Select options={itemsOnPageOptions} onChange={(e) => {
