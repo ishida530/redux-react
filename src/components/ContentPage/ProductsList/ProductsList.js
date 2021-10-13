@@ -174,7 +174,7 @@ const ProductsList = () => {
             <div>
                 <label>Szukaj:
                     <input value={searchValue} onChange={handleOnChange} />
-                    <button onClick={() => { setSearchValue(""); return setBooks(data.books) }}>X</button>
+                    <button onClick={() => { setSearchValue(""); return setBooks(data) }}>X</button>
                 </label>
                 <div>
                     <button onClick={() => { setListMenu(true); setTilesMenu(false) }}>LISTA</button>
