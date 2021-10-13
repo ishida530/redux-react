@@ -128,10 +128,10 @@ const ProductsList = () => {
     const pagesVisited = pageNumber * itemsPerPage;
     const pageCount = Math.ceil(books.length / itemsPerPage)
 
-
     const displayBooks = books.slice(pagesVisited, pagesVisited + itemsPerPage)
         .map(item => {
-            const {key,simple_thumb,title,price}=item;
+            console.log(item)
+            const {key,simple_thumb,title,price,count}=item;
             return (
                 <li key={key}>
                     <img src={simple_thumb} alt="Logo" />
@@ -139,6 +139,7 @@ const ProductsList = () => {
                     <span>{price} PLN</span>
                     <Link to={`/product/${key}`}>Zobacz</Link>
                     <button onClick={e => handleOnClik(e, item)}> Dodaj do koszyka</button>
+                    <span className='product__span-alert'>{count > 0 ? 'Dodano: '+count:null}</span>
                 </li>
             )
         }).sort(sortAZ);

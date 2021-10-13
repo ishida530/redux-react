@@ -8,15 +8,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchBooks, getRequestInfo } from './redux/booksRedux';
 import Loader from "react-loader-spinner";
 
-
-
-
-
 const App = () => {
   const request = useSelector(state => getRequestInfo(state))
   const dispatch = useDispatch() 
   const getAllBooks = () => dispatch(fetchBooks())
-
 
   useEffect(() => {
     getAllBooks()

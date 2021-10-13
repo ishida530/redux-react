@@ -37,7 +37,8 @@ const REMOVE_ALL_BOOK_FROM_BASKET = createActionName('REMOVE_ALL_BOOK_FROM_BASKE
 const START_REQUEST = createActionName('START_REQUEST')
 const FINISH_REQUEST_WITH_ERROR = createActionName('FINISH_REQUEST_WITH_ERROR')
 const FINISH_REQUEST_WITH_SUCCESS = createActionName('FINISH_REQUEST_WITH_SUCCESS')
-const SET_AMOUNT_BOOK = createActionName('SET_AMOUNT_BOOK')
+const SET_AMOUNT_BOOK_IN_BASKET = createActionName('SET_AMOUNT_BOOK_IN_BASKET')
+const SET_COUNT_BOOK = createActionName('SET_COUNT_BOOK')
 
 // action creators
 export const updateBooks = payload => ({ type: UPDATE_BOOKS, payload })
@@ -47,7 +48,8 @@ export const removeProduct = payload => ({ type: REMOVE_ALL_BOOK_FROM_BASKET, pa
 export const startRequest = () => ({ type: START_REQUEST })
 export const finishRequestWithError = () => ({ type: FINISH_REQUEST_WITH_ERROR })
 export const finishRequestWithSuccess = () => ({ type: FINISH_REQUEST_WITH_SUCCESS })
-export const setAmountBooks = payload => ({ type: SET_AMOUNT_BOOK, payload })
+export const setAmountBooks = payload => ({ type: SET_AMOUNT_BOOK_IN_BASKET, payload })
+export const changeCountBook = payload => ({ type: SET_COUNT_BOOK, payload })
 
 
 
@@ -61,6 +63,7 @@ export const fetchBooks = () => {
                 {
                     ...item,
                     key: shortid().toString(),
+                    count:0,
                     price: (Math.random() * 100.00).toFixed(2),
                 })
             );
@@ -78,6 +81,7 @@ export const checkBasket = (book, state) => {
         if (book.count === 0) {
             dispatch(removeItemfromBasket(book))
         } else {
+            dispatch(changeCountBook(book))
             dispatch(addItemToBasket(book))
         }
     }
@@ -120,13 +124,22 @@ export const reducer = (state = initialState, { type, payload }) => {
             return { ...state, request: { pending: false, error: false, success: true } }
         case FINISH_REQUEST_WITH_ERROR:
             return { ...state, request: { pending: false, error: true, success: false } }
-        case SET_AMOUNT_BOOK:
+        case SET_AMOUNT_BOOK_IN_BASKET:
             return {
                 ...state, basket: [...state.basket.filter(item => {
                     counter = 0
                     if (item.key !== payload.key) return item
                 }), payload].sort(sortAZ),
             }
+
+        case SET_COUNT_BOOK:
+        return {
+            ...state, books: [...state.books.filter(item => {
+                console.log("payload",payload)
+                if (item.key === payload.key)item.count++
+            return item
+            })],
+        }
         default:
             return state
     }
