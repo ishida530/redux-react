@@ -144,13 +144,16 @@ const ProductsList = () => {
 
     const handleOnClik = (e, book) => {
         e.preventDefault();
+        const {key,simple_thumb,title,price}=book
+        return(
         addBook({
-            key: book.key,
-            img: book.simple_thumb,
-            title: book.title,
+            key: key,
+            img: simple_thumb,
+            title: title,
             count: 1,
-            price: book.price,
+            price: price,
         })
+        )
     }
     const currentPage = ({ selected }) => {
         setActivePage(selected)
@@ -159,7 +162,7 @@ const ProductsList = () => {
         currentPage({ selected: 0 })
         setSearchValue(e.target.value)
         changePage({ selected: 0 })
-        setBooks(data.books.filter(item => { console.log('searchValue', searchValue); return item.title.toLocaleLowerCase().includes(e.target.value.toLocaleLowerCase()) }))
+        setBooks(data.filter(item => { console.log('searchValue', searchValue); return item.title.toLocaleLowerCase().includes(e.target.value.toLocaleLowerCase()) }))
     }
     const changePage = ({ selected }) => {
         setPageNumber(selected)
