@@ -1,9 +1,7 @@
 export const sortMinMaxPrice = (a, b) => {
-    console.log('numberss')
     return a.price - b.price
 }
 export const sortMaxMinPrice = (a, b) => {
-    console.log('numberss')
     return b.price - a.price
 }
 export const sortZA = (a, b) => {

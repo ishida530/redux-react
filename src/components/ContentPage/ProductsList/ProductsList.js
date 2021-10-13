@@ -162,7 +162,7 @@ const ProductsList = () => {
         currentPage({ selected: 0 })
         setSearchValue(e.target.value)
         changePage({ selected: 0 })
-        setBooks(data.filter(item => { console.log('searchValue', searchValue); return item.title.toLocaleLowerCase().includes(e.target.value.toLocaleLowerCase()) }))
+        setBooks(data.filter(item => item.title.toLocaleLowerCase().includes(e.target.value.toLocaleLowerCase()) ))
     }
     const changePage = ({ selected }) => {
         setPageNumber(selected)

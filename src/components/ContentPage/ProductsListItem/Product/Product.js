@@ -16,11 +16,13 @@ const Product = () => {
 
     const handleOnChange = (e) => {
         const tagret = e.target.value
-        parseInt(tagret) === 0 || tagret.length === 0 ? setDisabledBtn(true) : setDisabledBtn(false)
+        parseInt(tagret) === 0 || tagret.length === 0 || tagret < 0 ? setDisabledBtn(true) : setDisabledBtn(false)
         setCount(tagret)
     }
     const handleSubmit = (e, book) => {
         e.preventDefault();
+        setDisabledBtn(true)
+        setCount(1)
         const { key, simple_thumb, title, price } = book
         return (
             addBook(
@@ -43,7 +45,7 @@ const Product = () => {
                 <img src={simple_thumb} alt="Logo" />
                 <h4>{title}</h4>
                 <form onSubmit={(e) => { return handleSubmit(e, book) && setCount(1) }}>
-                    <input type="number" value={count} onChange={e => handleOnChange(e)} />
+                    <input type="number" min={1}  value={count} onChange={e => handleOnChange(e)} />
                     <button disabled={disabledBtn} type='submit'>Dodaj do koszyka</button>
                 </form>
             </div>
