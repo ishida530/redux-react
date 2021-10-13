@@ -7,7 +7,8 @@ import {
 import { checkBasket,allBooks, } from '../../../redux/booksRedux';
 import Select from 'react-select'
 import ReactPaginate from 'react-paginate';
-import  {sortOptions,itemsOnPage} from '../../../redux/initialState'
+import  {sortOptions,itemsOnPageOptions} from '../../../redux/initialState'
+
 const ContainerList = styled.div`
     margin: 0 auto;
     width: 90%;
@@ -177,8 +178,9 @@ const ProductsList = () => {
                     <button onClick={() => { setListMenu(false); setTilesMenu(true) }}>KAFELKI</button>
                 </div>
                 
-                <Select options={itemsOnPage} onChange={(e) => {
-                    e.itemOnPage()
+                <Select options={itemsOnPageOptions} onChange={(e) => {
+                    e.value==='all'?setItemsPerPage(books.length):setItemsPerPage(e.value)
+                    
                 }} />
 
                 <Select options={sortOptions} onChange={(e) => {
