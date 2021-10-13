@@ -29,7 +29,7 @@ const ContainerList = styled.div`
             max-width: 150px;
             display: flex;
             flex-direction: column;
-            padding: 20px;
+            padding: 20px 20px 0px 20px;
             margin: 10px;
             border-radius: 5%;
             width: 120px;
@@ -61,6 +61,13 @@ const ContainerList = styled.div`
             }
             span{
                 text-align:center;margin-bottom:10px
+            }
+            button{
+                margin: 5px 0;
+            }
+            .product__span-alert{
+                min-height: 22px;
+                margin-bottom:5px
             }
     }
 }
@@ -139,7 +146,7 @@ const ProductsList = () => {
                     <span>{price} PLN</span>
                     <Link to={`/product/${key}`}>Zobacz</Link>
                     <button onClick={e => handleOnClik(e, item)}> Dodaj do koszyka</button>
-                    <span className='product__span-alert'>{count > 0 ? 'Dodano: '+count:null}</span>
+                    <span className='product__span-alert'>{count > 0 ? 'Dodano: '+count+"szt.":null}</span>
                 </li>
             )
         }).sort(sortAZ);
