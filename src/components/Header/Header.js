@@ -2,35 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
-
+import './Header.scss'
 import { countInBasket } from '../../redux/booksRedux';
 
-const Navigation = styled.header`
-height: 10%;
-background-color: #ddd;
- ul{
-     display: flex;
-     justify-content: center;
-     list-style: none;
-     height: 80px;
-     margin: 0;
-     li{display:flex;
-        justify-content: center;
-        align-items: center;
-         margin: 0 20px;
-         text-transform: uppercase;
-        
-         a{
-            color: #000;
-         text-decoration: none;font-weight:500;
-         font-size:18px;
-         span{
-             color:red;
-         }
-         }
-     }
- }
-`;
+
 
 const itemsNaviagation = [
     { name: "start", path: "/", exact: true },
@@ -45,11 +20,11 @@ const Header = ({basket}) => {
         </li>
     ))
     return (
-        <Navigation className="main">
+        <header className='menu' >
             <ul>
                 {menu}
             </ul>
-        </Navigation>);
+        </header>);
 }
 const mapStateToProps=state=>({
     basket:countInBasket(state)

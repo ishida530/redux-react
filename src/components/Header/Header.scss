@@ -1,0 +1,26 @@
+header.menu{
+height: 10%;
+background-color: #ddd;
+ ul{padding: 0;
+     display: flex;
+     justify-content: center;
+     list-style: none;
+     height: 80px;
+     margin: 0;
+     li{display:flex;
+        justify-content: center;
+        align-items: center;
+         margin: 0 20px;
+         text-transform: uppercase;
+        
+         a{
+            color: #000;
+         text-decoration: none;font-weight:500;
+         font-size:18px;
+         span{
+             color:red;font-weight: bold;
+         }
+         }
+     }
+ }
+}

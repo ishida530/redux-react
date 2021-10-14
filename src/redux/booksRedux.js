@@ -62,7 +62,6 @@ export const fetchBooks = () => {
     return async (dispatch) => {
         try {
             const dt = new Date();
-            console.log(dt)
             if (localStorage.getItem("hour") == null || parseInt(localStorage.getItem("hour")) !== parseInt(dt.getHours())) {
                 localStorage.setItem("hour", dt.getHours());
                 localStorage.setItem("time", Date.now());
