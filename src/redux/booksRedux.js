@@ -3,6 +3,11 @@ import shortid from "shortid";
 import { sortAZ } from "../components/ContentPage/ProductsList/sortFunctions";
 
 let lengthArrayBooks = 0;
+const itemOnSale = 3
+export const percentSale=0.2
+export const priceAfterSale=(sale,itemPrice)=>{
+    return (itemPrice-(percentSale*itemPrice)).toFixed(2)
+}
 const incrementLengthItems = arr => Object.values(arr).forEach(e => {
     if (isNaN(e.count)) return
     else return lengthArrayBooks += e.count
@@ -10,6 +15,7 @@ const incrementLengthItems = arr => Object.values(arr).forEach(e => {
 
 //selectors
 export const allBooks = (state) => state.books
+export const saleBooks = (state) => state.sale_books
 export const countInBasket = (state) => {
     lengthArrayBooks = 0;
     if (state.basket.length !== 0) incrementLengthItems(state.basket)
@@ -52,23 +58,37 @@ export const setAmountBooks = payload => ({ type: SET_AMOUNT_BOOK_IN_BASKET, pay
 export const changeCountBook = payload => ({ type: SET_COUNT_BOOK, payload })
 
 
-
 export const fetchBooks = () => {
     return async (dispatch) => {
         try {
-            dispatch(startRequest())
-            const res = await fetch('https://wolnelektury.pl/api/authors/adam-mickiewicz/kinds/liryka/books/')
-            const data = await res.json()
-            const newData = data.map(item => (
-                {
-                    ...item,
-                    key: shortid().toString(),
-                    count:0,
-                    price: (Math.random() * 100.00).toFixed(2),
-                })
-            );
-            dispatch(updateBooks(newData))
-            dispatch(finishRequestWithSuccess())
+            const dt = new Date();
+            if (localStorage.getItem("hour") == null || parseInt(localStorage.getItem("hour")) !== parseInt(dt.getHours())) {
+                localStorage.setItem("hour", dt.getHours());
+                dispatch(startRequest())
+                const res = await fetch('https://wolnelektury.pl/api/authors/adam-mickiewicz/kinds/liryka/books/')
+                const data = await res.json()
+
+                const newData = data.map(item => (
+                    {
+                        ...item,
+                        key: shortid().toString(),
+                        count: 0,
+                        price: (Math.random() * 100.00).toFixed(2),
+                        onSale: false,
+                    })
+                );
+                for (let i = 0; i < itemOnSale; i++) {
+                    newData[Math.floor(Math.random() * newData.length)].onSale = true
+                }
+                dispatch(updateBooks(newData))
+                dispatch(finishRequestWithSuccess())
+                localStorage.setItem("array", JSON.stringify(newData));
+            }
+            else {
+                const newData = JSON.parse(localStorage.getItem("array"))
+                dispatch(updateBooks(newData)) && dispatch(finishRequestWithSuccess())
+            }
+
         } catch (err) {
             console.error(err)
             dispatch(finishRequestWithError())
@@ -98,9 +118,14 @@ export const reducer = (state = initialState, { type, payload }) => {
                 ...state,
                 basket: [...state.basket.filter(item => {
                     counter = 0
+                    console.log('1',priceAfterSale(percentSale,payload.price))
+
                     if (item.key === payload.key) {
                         counter = item.count
                         payload.count += counter
+                        console.log('2',priceAfterSale(percentSale,payload.price))
+                        payload.price=priceAfterSale(percentSale,payload.price)
+
                     }
                     if (item.key !== payload.key) return item
                 }), payload].sort(sortAZ),
@@ -133,13 +158,12 @@ export const reducer = (state = initialState, { type, payload }) => {
             }
 
         case SET_COUNT_BOOK:
-        return {
-            ...state, books: [...state.books.filter(item => {
-                console.log("payload",payload)
-                if (item.key === payload.key)item.count++
-            return item
-            })],
-        }
+            return {
+                ...state, books: [...state.books.filter(item => {
+                    if (item.key === payload.key) item.count++
+                    return item
+                })],
+            }
         default:
             return state
     }
