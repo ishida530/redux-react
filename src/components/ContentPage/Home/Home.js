@@ -2,6 +2,7 @@ import React from 'react'
 import { useSelector ,useDispatch} from 'react-redux'
 import './Home.scss'
 import { allBooks, checkBasket, percentSale,priceAfterSale } from '../../../redux/booksRedux'
+import { Link } from 'react-router-dom'
 
 
 
@@ -22,7 +23,7 @@ const Home = () => {
                 <h4>{title}</h4>
                 <span><s><span className="item__price--old">{price} </span></s>PLN</span>
                 <span><span className="item__price--new">{priceAfterSale(percentSale,price)} </span>PLN</span>
-                {/* <Link to={`/product/${key}`}>Zobacz</Link>*/}
+                <Link to={`/product/${key}`}>Zobacz</Link>
             <button onClick={e => handleOnClik(e, item)}> Dodaj do koszyka</button> 
                 <span className='product__span-alert'>{count > 0 ? 'Dodano: ' + count + "szt." : null}</span>
             </li>
@@ -37,7 +38,8 @@ const Home = () => {
                 img: simple_thumb,
                 title: title,
                 count: 1,
-                price: price,
+                price: priceAfterSale(percentSale,price),
+                oldPrice:price
             })
         )
     }

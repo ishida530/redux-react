@@ -52,7 +52,9 @@ const Basket = () => {
             img: book.simple_thumb,
             title: book.title,
             count: 1,
-            price: book.price
+            price: book.price,
+            oldPrice:book.oldPrice
+
         })
     }
     const handleDecrementBtn = (e, book) => {
@@ -62,7 +64,9 @@ const Basket = () => {
             img: book.simple_thumb,
             title: book.title,
             count: 0,
-            price: book.price
+            price: book.price,
+            oldPrice:book.oldPrice
+
         })
         else removeBook({
             key: book.key,
@@ -87,7 +91,7 @@ const Basket = () => {
                         img: book.simple_thumb,
                         title: book.title,
                         count: 1,
-                        price: book.price
+                        price: book.price,
                     })
                     e.target.focus()
                 }
@@ -100,7 +104,8 @@ const Basket = () => {
             img: book.simple_thumb,
             title: book.title,
             count: parseInt(e.target.value),
-            price: book.price
+            price: book.price,
+
         })
     }
 
@@ -112,7 +117,7 @@ const Basket = () => {
                 <button onClick={e => handleIncrementBtn(e, item)}>+</button>
                 <button onClick={e => handleDecrementBtn(e, item)}>-</button>
             </div>
-            <label><b> Cena:</b><span>{item.price} PLN</span></label>
+            <label><b> Cena: </b><s><span style={{color:"red"}}>{item.oldPrice}</span></s> <span style={item.oldPrice?{color:"green"}:null}> {item.price} PLN</span></label>
             <div>
 
                 <button onClick={(e) => handleRemoveBtn(e, item)}>Usuń </button>

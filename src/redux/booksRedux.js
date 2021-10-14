@@ -118,14 +118,10 @@ export const reducer = (state = initialState, { type, payload }) => {
                 ...state,
                 basket: [...state.basket.filter(item => {
                     counter = 0
-                    console.log('1',priceAfterSale(percentSale,payload.price))
 
                     if (item.key === payload.key) {
                         counter = item.count
-                        payload.count += counter
-                        console.log('2',priceAfterSale(percentSale,payload.price))
-                        payload.price=priceAfterSale(percentSale,payload.price)
-
+                         payload.count += counter
                     }
                     if (item.key !== payload.key) return item
                 }), payload].sort(sortAZ),
