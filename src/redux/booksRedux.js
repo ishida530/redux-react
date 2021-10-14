@@ -66,6 +66,7 @@ export const fetchBooks = () => {
             if (localStorage.getItem("hour") == null || parseInt(localStorage.getItem("hour")) !== parseInt(dt.getHours())) {
                 localStorage.setItem("hour", dt.getHours());
                 localStorage.setItem("time", Date.now());
+                localStorage.setItem("time2", Date());
                 dispatch(startRequest())
                 const res = await fetch('https://wolnelektury.pl/api/authors/adam-mickiewicz/kinds/liryka/books/')
                 const data = await res.json()

@@ -15,7 +15,8 @@ div.productList{
     ul.tiles{  width: 100%;
         display:flex;
         flex-wrap: wrap;  
-        justify-content:center;
+        justify-content:space-between;
+        padding: 0;
         li{list-style:none;
             max-width: 150px;
             display: flex;
@@ -62,7 +63,12 @@ div.productList{
             }
     }
 }
-    ul.list{
+    ul.list{ 
+        width: 100%;
+        display:flex;
+        flex-wrap: wrap;  
+        justify-content:center;
+        padding: 0;
         li{list-style:none;
             display: flex;
             justify-content: space-between;
