@@ -49,7 +49,10 @@ const Home = () => {
         <div className='home'>
             <h2>Akutalne książki -20% przez: </h2>
             <div className='home__counter'> <Countdown onComplete={() => { localStorage.clear(); return getAllBooks() }}
-                date={dt.setHours(Number(localStorage.getItem("hour")) + 1, 0, 0, 0, 0)} />
+                 date={dt.setHours(Number(localStorage.getItem("hour")) + 1, 0, 0, 0)} 
+               
+
+                />
             </div>
             <ul>
                 {data.filter(({ onSale }) => onSale).map(item => booksOnSale(item))}
