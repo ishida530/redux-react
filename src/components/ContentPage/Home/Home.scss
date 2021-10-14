@@ -1,11 +1,18 @@
 div.home {
-    width: 90%;
     margin: 0 auto;
 h2{
     width: 100%;
     text-align: center;
 }
-    ul {
+.home__counter{
+    display: flex;
+    justify-self: center;
+    span{
+        margin: 0 auto;
+        font-size: 34px;font-weight: bold;
+    }
+}
+    ul {padding: 0;
         display: flex;
 justify-content: center;
         li{list-style:none;

@@ -1,19 +1,24 @@
-import React from 'react'
+import React,{useEffect,useState} from 'react'
 import { useSelector ,useDispatch} from 'react-redux'
 import './Home.scss'
-import { allBooks, checkBasket, percentSale,priceAfterSale } from '../../../redux/booksRedux'
+import { allBooks, checkBasket, percentSale,priceAfterSale,fetchBooks } from '../../../redux/booksRedux'
 import { Link } from 'react-router-dom'
+import Countdown from 'react-countdown';
 
 
 
 
 const Home = () => {
+const [timeSale, setTimeSale] = useState(0)
+const [newFetch, setNewFetch] = useState(false)
     const data = useSelector(state => allBooks(state))
 
     const dispatch = useDispatch() 
     const addBook = book => dispatch(checkBasket(book))
+    const getAllBooks = () => dispatch(fetchBooks())
 
    
+
     // const incrementCountBook = book => dispatch(checkBasket(book))
     const booksOnSale = (item) => {
         const { key, simple_thumb, title, price, count } = item;
@@ -43,9 +48,22 @@ const Home = () => {
             })
         )
     }
+
+    console.log(typeof(Date.now()))
+    console.log(typeof(localStorage.getItem('time')));
+        useEffect(() => {
+            setTimeSale(Number(localStorage.getItem('time')));
+            
+           const interval = setInterval(() => {
+                setTimeSale(time => time - 1);
+              }, 1000);
+              return () => clearInterval(interval)
+        }, [])
     return (
         <div className='home'>
-            <h2>Akutalne książki -20%:</h2>
+            <h2>Akutalne książki -20% przez: </h2>
+           <div className='home__counter'> <Countdown onComplete={()=> {localStorage.clear();return getAllBooks()}} date={timeSale+5000 }/></div>
+
             <ul>
                 {data.filter(({ onSale }) => onSale).map(item => booksOnSale(item))}
             </ul>
