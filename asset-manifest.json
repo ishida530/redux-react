@@ -1,22 +1,25 @@
 {
   "files": {
-    "main.css": "/redux-react/static/css/main.d0c44ee6.chunk.css",
-    "main.js": "/redux-react/static/js/main.30c4ee2d.chunk.js",
-    "main.js.map": "/redux-react/static/js/main.30c4ee2d.chunk.js.map",
-    "runtime-main.js": "/redux-react/static/js/runtime-main.6cf93963.js",
-    "runtime-main.js.map": "/redux-react/static/js/runtime-main.6cf93963.js.map",
-    "static/js/2.b0ae43b6.chunk.js": "/redux-react/static/js/2.b0ae43b6.chunk.js",
-    "static/js/2.b0ae43b6.chunk.js.map": "/redux-react/static/js/2.b0ae43b6.chunk.js.map",
-    "static/js/3.ffa30e67.chunk.js": "/redux-react/static/js/3.ffa30e67.chunk.js",
-    "static/js/3.ffa30e67.chunk.js.map": "/redux-react/static/js/3.ffa30e67.chunk.js.map",
+    "main.css": "/redux-react/static/css/main.4cae4380.chunk.css",
+    "main.js": "/redux-react/static/js/main.9e69ff52.chunk.js",
+    "main.js.map": "/redux-react/static/js/main.9e69ff52.chunk.js.map",
+    "runtime-main.js": "/redux-react/static/js/runtime-main.52a4a1e1.js",
+    "runtime-main.js.map": "/redux-react/static/js/runtime-main.52a4a1e1.js.map",
+    "static/js/2.4aaa114b.chunk.js": "/redux-react/static/js/2.4aaa114b.chunk.js",
+    "static/js/2.4aaa114b.chunk.js.map": "/redux-react/static/js/2.4aaa114b.chunk.js.map",
+    "static/js/3.07c16a9e.chunk.js": "/redux-react/static/js/3.07c16a9e.chunk.js",
+    "static/js/3.07c16a9e.chunk.js.map": "/redux-react/static/js/3.07c16a9e.chunk.js.map",
     "index.html": "/redux-react/index.html",
-    "static/css/main.d0c44ee6.chunk.css.map": "/redux-react/static/css/main.d0c44ee6.chunk.css.map",
-    "static/js/2.b0ae43b6.chunk.js.LICENSE.txt": "/redux-react/static/js/2.b0ae43b6.chunk.js.LICENSE.txt"
+    "static/css/main.4cae4380.chunk.css.map": "/redux-react/static/css/main.4cae4380.chunk.css.map",
+    "static/js/2.4aaa114b.chunk.js.LICENSE.txt": "/redux-react/static/js/2.4aaa114b.chunk.js.LICENSE.txt",
+    "static/media/pexels-kaboompics-com-6332.269f73da.jpg": "/redux-react/static/media/pexels-kaboompics-com-6332.269f73da.jpg",
+    "static/media/pexels-martin-péchy-922100.1f28be85.jpg": "/redux-react/static/media/pexels-martin-péchy-922100.1f28be85.jpg",
+    "static/media/pexels-maël-balland-3457273.344df4fd.jpg": "/redux-react/static/media/pexels-maël-balland-3457273.344df4fd.jpg"
   },
   "entrypoints": [
-    "static/js/runtime-main.6cf93963.js",
-    "static/js/2.b0ae43b6.chunk.js",
-    "static/css/main.d0c44ee6.chunk.css",
-    "static/js/main.30c4ee2d.chunk.js"
+    "static/js/runtime-main.52a4a1e1.js",
+    "static/js/2.4aaa114b.chunk.js",
+    "static/css/main.4cae4380.chunk.css",
+    "static/js/main.9e69ff52.chunk.js"
   ]
 }
