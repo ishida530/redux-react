@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import './Header.scss'
@@ -14,13 +14,23 @@ const itemsNaviagation = [
     { name: "koszyk", path: "/basket" }]
     
 const Header = ({basket}) => {
+    const [scrolling, setScrolling] = useState()
+
+    useEffect(() => {
+
+        window.onscroll = () => {
+            if (window.scrollY <= 10)setScrolling(false)   
+              else setScrolling(true)
+        }
+      }, []);
+
     const menu = itemsNaviagation.map(item => (
         <li key={item.name}>
             <NavLink exact={item.exact ? item.exact : false} to={item.path}>{item.name ==="koszyk"?<><FaShoppingBasket/> <span>{ isNaN(basket)?'aa':basket}</span></>: `${item.name}`}</ NavLink>
         </li>
     ))
     return (
-        <header className='menu' >
+        <header className={scrolling?'menu scrolled': 'menu'} >
             <h1><span>Book</span>Store</h1>
             <ul>
                 {menu}

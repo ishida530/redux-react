@@ -6,9 +6,10 @@ import ProductList from './ProductsList/ProductsList'
 import ContactList from './ContactForm/ContactForm'
 import Basket from './Basket/Basket'
 import ProductsListItem from './ProductsListItem/ProductsListItem';
+import './ContentPage.scss'
 const Page = () => {
     return (
-        <>
+        <section className='contentPage'>            
             <Switch>
                 <Route exact path="/" component={HomePage} />
                 <Route exact path="/redux-react" component={HomePage} />
@@ -20,7 +21,8 @@ const Page = () => {
                     <h1>Strona nie istnieje</h1>
                 )} />
             </Switch>
-        </>
+        </section>
+
     );
 }
 
