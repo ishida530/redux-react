@@ -1,21 +1,43 @@
 div.home {
     margin: 0 auto;
-h2{
-    width: 100%;
-    text-align: center;
-}
-.home__counter{
-    display: flex;
-    justify-self: center;
-    span{
-        margin: 0 auto;
-        font-size: 34px;font-weight: bold;
+
+    h2 {
+        width: 100%;
+        text-align: center;
     }
-}
-    ul {padding: 0;
+
+    .home__slider {
+        padding: 0;
         display: flex;
-justify-content: center;
-        li{list-style:none;
+        justify-content: center;
+     
+            img {
+                height: 300px;
+                min-width: 100%;
+                object-fit: cover;
+            }
+        
+
+    }
+
+    .home__counter {
+        display: flex;
+        justify-self: center;
+
+        span {
+            margin: 0 auto;
+            font-size: 34px;
+            font-weight: bold;
+        }
+    }
+
+    ul.home__list {
+        padding: 0;
+        display: flex;
+        justify-content: center;
+
+        li {
+            list-style: none;
             max-width: 150px;
             display: flex;
             flex-direction: column;
@@ -28,46 +50,57 @@ justify-content: center;
             text-decoration: none;
             color: #000;
             flex-grow: 1;
-            img{
+
+            img {
                 max-height: 220px;
-                width:auto;
             }
-            h4{
-                display:flex;
+
+            h4 {
+                display: flex;
                 align-items: center;
                 justify-content: center;
-                text-align:center ;
-                align-items: center;height:100%;
+                text-align: center;
+                align-items: center;
+                height: 100%;
             }
-            a{text-align:center;
-                text-decoration:none;
-                padding:10px 20px;
+
+            a {
+                text-align: center;
+                text-decoration: none;
+                padding: 10px 20px;
                 background-color: #fff;
-                border: 2px solid rgba(1,1,1,0.5);
+                border: 2px solid rgba(1, 1, 1, 0.5);
                 border-radius: 5px;
                 color: #000;
                 text-transform: uppercase;
                 font-weight: 500;
             }
-            span{                    font-weight: bold;
 
-                text-align:center;
-                ;margin-bottom:10px;
-                .item__price--old{
+            span {
+                font-weight: bold;
+
+                text-align: center;
+                ;
+                margin-bottom: 10px;
+
+                .item__price--old {
                     color: red;
                 }
-                .item__price--new{
+
+                .item__price--new {
                     color: green;
                     font-weight: bold;
                 }
             }
-            button{
+
+            button {
                 margin: 5px 0;
             }
-            .product__span-alert{
+
+            .product__span-alert {
                 min-height: 22px;
-                margin-bottom:5px
+                margin-bottom: 5px
             }
-    }
+        }
     }
 }

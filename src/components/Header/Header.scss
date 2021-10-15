@@ -1,26 +1,73 @@
-header.menu{
-height: 10%;
-background-color: #ddd;
- ul{padding: 0;
-     display: flex;
-     justify-content: center;
-     list-style: none;
-     height: 80px;
-     margin: 0;
-     li{display:flex;
-        justify-content: center;
+header.menu {
+    height: 10%;
+    display: flex;
+    border-bottom: 1px solid #dadada;
+    h1 {
+        display: flex;
         align-items: center;
-         margin: 0 20px;
-         text-transform: uppercase;
-        
-         a{
-            color: #000;
-         text-decoration: none;font-weight:500;
-         font-size:18px;
-         span{
-             color:red;font-weight: bold;
-         }
-         }
-     }
- }
+        justify-content: center;
+        margin: 10px 30px;
+        font-family: Roboto;
+
+        span {
+            color: #a3d5d2;
+        }
+    }
+
+    ul {
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        list-style: none;
+        height: 80px;
+        margin: 0;
+        width: 100%;
+
+        li {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 20px;
+            text-transform: capitalize;
+            font-family: arial;
+            transition: .3s;
+
+            a {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: #dadada;
+                text-decoration: none;
+                font-weight: 500;
+                font-size: 18px;
+                border-bottom: 2px solid transparent;
+                padding: 15px;
+
+                svg {
+                    font-size: 24px;
+                    margin-right: 15px;
+                    color: #515050;
+                }
+
+                span {
+                    color: red;
+                    font-weight: bold;
+                }
+            }
+
+            a.active {
+                color: #909090;
+            }
+
+            a:hover {
+                color: #909090;
+
+            }
+        }
+
+        li:last-child {
+            margin-left: auto;
+            margin-right: 30px;
+        }
+    }
 }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useEffect,useState} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import './Home.scss'
 import { allBooks, checkBasket, percentSale, priceAfterSale, fetchBooks } from '../../../redux/booksRedux'
@@ -7,14 +7,36 @@ import Countdown from 'react-countdown';
 
 
 
+import img1 from './img/pexels-kaboompics-com-6332.jpg'
+import img2 from './img/pexels-maël-balland-3457273.jpg'
+import img3 from './img/pexels-martin-péchy-922100.jpg'
+
+const slides=[
+    img1,img2,img3
+]
+let index=0
 
 const Home = () => {
+    const [slide, setSlide] = useState(img1);
 
     const data = useSelector(state => allBooks(state))
     const dispatch = useDispatch()
     const addBook = book => dispatch(checkBasket(book))
     const getAllBooks = () => dispatch(fetchBooks())
+    useEffect(() => {
+        
+    setInterval(() => {
+       setSlide(slides[index])
+        index++;
+        if(index===slides.length-1)return index=0 
+        else return index        
+    
+          }, 2000)
+        return ()=>clearInterval(setInterval)
 
+        
+      }, []);
+    
     const booksOnSale = (item) => {
         const { key, simple_thumb, title, price, count } = item;
         return (
@@ -47,6 +69,9 @@ const Home = () => {
 
     return (
         <div className='home'>
+            <ul className='home__slider'>
+                <img  src={slide}/>
+            </ul>
             <h2>Akutalne książki -20% przez: </h2>
             <div className='home__counter'> <Countdown onComplete={() => { localStorage.clear(); return getAllBooks() }}
                  date={dt.setHours(Number(localStorage.getItem("hour")) + 1, 0, 0, 0)} 
@@ -54,7 +79,7 @@ const Home = () => {
 
                 />
             </div>
-            <ul>
+            <ul className='home__list'>
                 {data.filter(({ onSale }) => onSale).map(item => booksOnSale(item))}
             </ul>
 
