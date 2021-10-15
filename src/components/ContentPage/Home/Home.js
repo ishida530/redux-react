@@ -18,20 +18,26 @@ let index=0
 
 const Home = () => {
     const [slide, setSlide] = useState(img1);
+    const [fade, setFade] = useState(true);
 
     const data = useSelector(state => allBooks(state))
     const dispatch = useDispatch()
     const addBook = book => dispatch(checkBasket(book))
     const getAllBooks = () => dispatch(fetchBooks())
+
+
+
     useEffect(() => {
-        
+
     setInterval(() => {
-       setSlide(slides[index])
+        setTimeout(()=> setFade(false),1000)
+        setFade(true)
+        setSlide(slides[index])
         index++;
-        if(index===slides.length-1)return index=0 
-        else return index        
-    
-          }, 2000)
+
+        if(index===slides.length) index=0
+         
+    }, 2000)
         return ()=>clearInterval(setInterval)
 
         
@@ -70,7 +76,7 @@ const Home = () => {
     return (
         <div className='home'>
             <ul className='home__slider'>
-                <img  src={slide}/>
+                <img className={fade===true?'fade':null} src={slide} alt={slide}/>
             </ul>
             <h2>Akutalne książki -20% przez: </h2>
             <div className='home__counter'> <Countdown onComplete={() => { localStorage.clear(); return getAllBooks() }}
