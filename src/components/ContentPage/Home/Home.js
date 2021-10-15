@@ -28,19 +28,14 @@ const Home = () => {
 
 
     useEffect(() => {
-
-    setInterval(() => {
-        setTimeout(()=> setFade(false),1800)
-        setSlide(slides[index])
-        setFade(true)
-        index++;
-
-        if(index===slides.length) index=0
-         
-    }, 2000)
+        setInterval(() => {
+            setTimeout(()=> setFade(false),1800)
+            setSlide(slides[index])
+            setFade(true)
+            index++;
+            if(index===slides.length) index=0
+        }, 2000)
         return ()=>clearInterval(setInterval)
-
-        
       }, []);
     
     const booksOnSale = (item) => {

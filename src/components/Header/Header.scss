@@ -9,6 +9,7 @@ header.menu {
     transition: .3s;background: #fff;
     padding-left: 10%;
     padding-right: 10%;
+    z-index: 10;
     &.scrolled{
         background-color: white;
         box-shadow: 1px 1px 15px rgba(0, 0, 0, .5);
