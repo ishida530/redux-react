@@ -30,9 +30,9 @@ const Home = () => {
     useEffect(() => {
 
     setInterval(() => {
-        setTimeout(()=> setFade(false),1000)
-        setFade(true)
+        setTimeout(()=> setFade(false),1800)
         setSlide(slides[index])
+        setFade(true)
         index++;
 
         if(index===slides.length) index=0
