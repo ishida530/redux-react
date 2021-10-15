@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/redux-react/static/css/main.da7e2778.chunk.css",
+    "main.css": "/redux-react/static/css/main.242cd3c4.chunk.css",
     "main.js": "/redux-react/static/js/main.456e107e.chunk.js",
     "main.js.map": "/redux-react/static/js/main.456e107e.chunk.js.map",
     "runtime-main.js": "/redux-react/static/js/runtime-main.d78f8afd.js",
@@ -10,7 +10,7 @@
     "static/js/3.b9edd33d.chunk.js": "/redux-react/static/js/3.b9edd33d.chunk.js",
     "static/js/3.b9edd33d.chunk.js.map": "/redux-react/static/js/3.b9edd33d.chunk.js.map",
     "index.html": "/redux-react/index.html",
-    "static/css/main.da7e2778.chunk.css.map": "/redux-react/static/css/main.da7e2778.chunk.css.map",
+    "static/css/main.242cd3c4.chunk.css.map": "/redux-react/static/css/main.242cd3c4.chunk.css.map",
     "static/js/2.8ed6c22f.chunk.js.LICENSE.txt": "/redux-react/static/js/2.8ed6c22f.chunk.js.LICENSE.txt",
     "static/media/pexels-kaboompics-com-6332.269f73da.jpg": "/redux-react/static/media/pexels-kaboompics-com-6332.269f73da.jpg",
     "static/media/pexels-martin-péchy-922100.1f28be85.jpg": "/redux-react/static/media/pexels-martin-péchy-922100.1f28be85.jpg",
@@ -19,7 +19,7 @@
   "entrypoints": [
     "static/js/runtime-main.d78f8afd.js",
     "static/js/2.8ed6c22f.chunk.js",
-    "static/css/main.da7e2778.chunk.css",
+    "static/css/main.242cd3c4.chunk.css",
     "static/js/main.456e107e.chunk.js"
   ]
 }
