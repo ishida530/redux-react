@@ -15,76 +15,42 @@ div.productList{
     ul.tiles{  width: 100%;
         display:flex;
         flex-wrap: wrap;  
-        justify-content:space-between;
+        justify-content:flex-start;
         padding: 0;
-        li{list-style:none;
-            max-width: 150px;
-            display: flex;
-            flex-direction: column;
-            padding: 20px 20px 0px 20px;
-            margin: 10px;
-            border-radius: 5px;
-            width: 120px;
-            background-color: rgba(222, 222, 222, 0.5);
-            box-shadow: 5px 5px 5px #888888;
-            text-decoration: none;
-            color: #000;
-            flex-grow: 1;
-            img{
-                max-height: 220px;
-                width:auto;
-            }
-            h4{
-                display:flex;
-                align-items: center;
-                justify-content: center;
-                text-align:center ;
-                align-items: center;height:100%;
-            }
-            a{text-align:center;
-                text-decoration:none;
-                padding:10px 20px;
-                background-color: #fff;
-                border: 2px solid rgba(1,1,1,0.5);
-                border-radius: 5px;
-                color: #000;
-                text-transform: uppercase;
-                font-weight: 500;
-            }
-            span{
-                text-align:center;margin-bottom:10px
-            }
-            button{
-                margin: 5px 0;
-            }
-            .product__span-alert{
-                min-height: 22px;
-                margin-bottom:5px
-            }
-    }
+        li{ width: 18%;
+            max-width: 22%;
+            margin: 30px;
+        }
+      
 }
     ul.list{ 
         width: 100%;
         display:flex;
-        flex-wrap: wrap;  
-        justify-content:center;
         padding: 0;
-        li{list-style:none;
+        flex-direction: column;
+        li{
+            list-style:none;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
             flex-direction: row;
             padding: 20px;
             margin: 15px;
             border-radius: 5px;
-            background-color: rgba(222, 222, 222, 0.5);
-            box-shadow: 5px 5px 5px #888888;
+            justify-content: start;
             text-decoration: none;
             color: #000;
             flex-grow: 1;
             img{
                 max-height: 120px;
-                width:auto;
+            }
+            .li__div--info{
+                display: flex;
+                align-items: center;
+                flex-direction: row;
+                justify-content: space-around;
+                width: 100%;
+                h3{width: 20%;}
+                span{width: 20%;}
+                a{width: 20%;}
             }
         }
 

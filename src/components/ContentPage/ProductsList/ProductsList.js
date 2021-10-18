@@ -1,23 +1,18 @@
 import React, { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import './ProductsList.scss';
-import {
-    Link
-} from "react-router-dom";
-import { checkBasket, allBooks, } from '../../../redux/booksRedux';
+import { allBooks, } from '../../../redux/booksRedux';
 import Select from 'react-select'
 import ReactPaginate from 'react-paginate';
 import { sortOptions, itemsOnPageOptions } from '../../../redux/initialState'
 import { sortAZ } from './sortFunctions';
-
+import BookItem from './BookItem'
 
 
 const ProductsList = () => {
 
     const data = useSelector(state => allBooks(state))
 
-    const dispatch = useDispatch()
-    const addBook = book => dispatch(checkBasket(book))
 
     const [listMenu, setListMenu] = useState(false);
     const [tilesMenu, setTilesMenu] = useState(true)
@@ -29,35 +24,9 @@ const ProductsList = () => {
     const pagesVisited = pageNumber * itemsPerPage;
     const pageCount = Math.ceil(books.length / itemsPerPage)
 
-    const displayBooks = books.slice(pagesVisited, pagesVisited + itemsPerPage)
-        .map(item => {
-            const { key, simple_thumb, title, price, count } = item;
-            return (
-                <li key={key}>
-                    <img src={simple_thumb} alt="Logo" />
-                    <h4>{title}</h4>
-                    <span>{price} PLN</span>
-                    <Link to={`/product/${key}`}>Zobacz</Link>
-                    <button onClick={e => handleOnClik(e, item)}> Dodaj do koszyka</button>
-                    <span className='product__span-alert'>{count > 0 ? 'Dodano: ' + count + "szt." : null}</span>
-                </li>
-            )
-        }).sort(sortAZ);
 
 
-    const handleOnClik = (e, book) => {
-        e.preventDefault();
-        const { key, simple_thumb, title, price } = book
-        return (
-            addBook({
-                key: key,
-                img: simple_thumb,
-                title: title,
-                count: 1,
-                price: price,
-            })
-        )
-    }
+
     const currentPage = ({ selected }) => {
         setActivePage(selected)
     }
@@ -104,7 +73,7 @@ const ProductsList = () => {
                 </div>
             </div>
             <ul className={`${listMenu ? 'list' : 'tiles'}`}>
-                {displayBooks}
+                {books.slice(pagesVisited, pagesVisited + itemsPerPage).map(item =><BookItem key={item.key} item={item}/>).sort(sortAZ)}
             </ul>
             <ReactPaginate
                 previousLabel={'Previous'}

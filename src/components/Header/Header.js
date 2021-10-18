@@ -32,7 +32,7 @@ const Header = ({basket}) => {
     return (
         <header className={scrolling?'menu scrolled': 'menu'} >
             <h1><span>Book</span>Store</h1>
-            <ul>
+            <ul className='header__nav'>
                 {menu}
             </ul>
         </header>);

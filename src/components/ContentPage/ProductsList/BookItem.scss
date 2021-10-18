@@ -1,0 +1,107 @@
+li.bookItem {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    border-radius: 5px;
+    // background-color: rgba(222, 222, 222, 0.5);
+    // box-shadow: 5px 5px 5px #888888;
+    text-decoration: none;
+    color: #000;
+    flex-grow: 1;
+    justify-content: center;
+
+    img {
+        max-height: 216px;
+    }
+
+    .li__div--info {
+
+        display: flex;
+        flex-direction: column;
+        margin-left: 10px;
+        justify-content: space-between;
+        /* Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+        h3 {
+            display: flex;
+            align-items: center;
+            align-items: center;
+            font-family: roboto;
+            font-weight: bold;
+        }
+
+        a {
+            text-decoration: none;
+            background-color: #fff;
+            border-radius: 5px;
+            color: #cfcfcf;
+            text-transform: capitalize;
+            font-weight: 500;
+            display: flex;
+            font-weight: bold;
+            align-items: left;
+            display: flex;
+            align-items: center;
+            transition: .3s;
+            svg {
+                margin-left: 5px;
+            }
+            &:hover{
+                color: #909090;
+            }
+        }
+
+        span {
+            font-weight: bold;
+
+            text-align: left;
+            ;
+            margin-bottom: 10px;
+
+            .item__price--old {
+                color: red;
+            }
+
+            .item__price--new {
+                color: green;
+                font-weight: bold;
+            }
+        }
+
+        .product__span-alert {
+            min-height: 22px;
+            margin-bottom: 5px;
+            color: #cfcfcf;
+            display: flex;
+            justify-content: left;
+            align-items: center;
+
+            .li__btn--addBasket {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 0;
+                background-color: #fff;
+                border: none;
+                font-size: 25px;
+                width: fit-content;
+                margin-right: 10px;cursor: pointer;
+                transition:.3s;
+                &:hover{
+                    transform: scale(1.15);
+                }
+            }
+           
+
+        }
+    }
+}
