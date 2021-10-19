@@ -1,15 +1,55 @@
 div.productList{
     margin: 0 auto;
+    margin-top: 10%;
     width: 90%;
-    h2{
-        text-align: center;
-    }
-    >div{
+    
+    .productList_optionsBar{
         display: flex;
         justify-content: space-between;
         align-items: center;
+        
+        button{display: flex;
+            align-items: center;
+            background-color:#fff;
+            border:none;
+            font-size: 26px;
+            cursor: pointer;
+            color:#909090
+        }
         .wrapperSelect{
             width: 100px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: row;
+            width: 315px;
+            justify-content: space-between;
+        }
+        label{position: relative;
+            display: flex;
+            align-items: center;
+            min-width: 250px;
+            margin-right: auto;
+            input{
+                margin-left: 5px;
+                padding: 8px 8px;
+                border:1px solid rgb(204, 204, 204);
+                border-radius: 4px;
+                &:focus{
+                    outline: 1px solid rgb(204, 204, 204);;
+                }               
+            }
+            button{margin-left: 5px;
+                display: flex;
+                align-items: center;
+            }
+            .optionsBar__searchIcon{
+                position: absolute;
+                right: 27%;
+                top: 23%;
+                color: rgb(204, 204, 204);
+                font-size: 20px;
+                          
+            }
         }
     }
     ul.tiles{  width: 100%;
@@ -40,6 +80,7 @@ div.productList{
             text-decoration: none;
             color: #000;
             flex-grow: 1;
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;  
             img{
                 max-height: 120px;
             }
@@ -50,9 +91,11 @@ div.productList{
                 justify-content: space-around;
                 width: 100%;
                 h3{width: 20%;}
-                span{width: 20%;}
+                span{width: 20%;margin-bottom: 0;;
+                }
                 a{width: 20%;}
             }
+         
         }
 
     }

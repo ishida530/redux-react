@@ -1,7 +1,8 @@
 import React from 'react'
+import { ImBin } from 'react-icons/im'
 import { useSelector, useDispatch } from 'react-redux'
 import {  checkBasket, removeProduct,   setAmountBooks } from '../../../redux/booksRedux'
-
+import { AiFillPlusSquare,AiFillMinusSquare } from "react-icons/ai";
 
 
 
@@ -13,7 +14,6 @@ const BasketItem = (item) => {
     const {key,title,count,oldPrice,price,onSale,img,href}=item;
 
 
-    console.log("111",href)
 
     const handleIncrementBtn = (e, book) => {
         const {key,img,title,price,oldPrice,onSale}=book
@@ -96,11 +96,11 @@ return(
 
     <li key={key}>
         <img  src={img} alt=''/> 
-        <span><b>Tytuł: </b>{title}.</span>
-        <div>
+        <span className="item__title"><b>Tytuł: </b>{title}.</span>
+        <div className="item__amountWrapper">
             <label><b> Ilośc sztuk:</b> <input min={0} max={100} type="number" value={count} onChange={e => handleOnChange(e, item)} onBlur={e => handleOnBlur(e, item)} /></label>
-            <button onClick={e => handleIncrementBtn(e, item)}>+</button>
-            <button onClick={e => handleDecrementBtn(e, item)}>-</button>
+            <button onClick={e => handleIncrementBtn(e, item)}><AiFillPlusSquare/></button>
+            <button onClick={e => handleDecrementBtn(e, item)}><AiFillMinusSquare/></button>
         </div>
         <label><b> Cena: </b>{onSale?
           <> <s><span style={{color:"red"}}>{oldPrice}</span></s> <span style={oldPrice?{color:"green"}:null}> {price} PLN</span></> :
@@ -109,7 +109,7 @@ return(
     }</label>
         <div>
 
-            <button onClick={(e) => handleRemoveBtn(e, item)}>Usuń </button>
+            <button className="item__btn-delete" onClick={(e) => handleRemoveBtn(e, item)}><ImBin/> </button>
         </div>
     </li>
     )

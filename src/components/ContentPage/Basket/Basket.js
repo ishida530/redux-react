@@ -1,6 +1,6 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { basketList, checkBasket, removeProduct, countInBasket, priceForAll, setAmountBooks } from '../../../redux/booksRedux'
+import { useSelector } from 'react-redux'
+import { basketList,  countInBasket, priceForAll } from '../../../redux/booksRedux'
 import './Basket.scss'
 import BasketItem from './BasketItem'
 

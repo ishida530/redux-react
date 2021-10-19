@@ -7,7 +7,10 @@ import ReactPaginate from 'react-paginate';
 import { sortOptions, itemsOnPageOptions } from '../../../redux/initialState'
 import { sortAZ } from './sortFunctions';
 import BookItem from './BookItem'
-
+import { BsFillGrid3X3GapFill,BsListUl } from 'react-icons/bs';
+import { IoIosListBox  } from "react-icons/io";
+import { MdClear, } from "react-icons/md";
+import { BsSearch } from "react-icons/bs";
 
 const ProductsList = () => {
 
@@ -24,8 +27,24 @@ const ProductsList = () => {
     const pagesVisited = pageNumber * itemsPerPage;
     const pageCount = Math.ceil(books.length / itemsPerPage)
 
-
-
+    const themeSelect=(theme) => ({
+        ...theme,
+        colors: {
+        ...theme.colors,
+          text: 'orangered',
+          primary25: '#ddd',
+          primary: '#ddd',
+    
+        },
+        
+    })
+    const styleSelect = {
+        control: (css) => ({
+            ...css,
+            width: "150px"
+          }),
+     
+      };
 
     const currentPage = ({ selected }) => {
         setActivePage(selected)
@@ -45,23 +64,23 @@ const ProductsList = () => {
     }
     return (
         <div className='productList'>
-            <h2>Lista produktów</h2>
-            <div>
-                <label>Szukaj:
-                    <input value={searchValue} onChange={handleOnChange} />
-                    <button onClick={() => { setSearchValue(""); return setBooks(data) }}>X</button>
-                </label>
+            <div className='productList_optionsBar'>
+                
                 <div>
-
-                    <button onClick={() => handleDisplayList(!listMenu, !tilesMenu)}>{listMenu ? 'Kafelki' : "Lista"}</button>
+                    <button onClick={() => handleDisplayList(!listMenu, !tilesMenu)}>{listMenu ? <BsFillGrid3X3GapFill/> : <IoIosListBox/>} </button>
                 </div>
+                <label>
+                    <input placeholder='Szukaj...' value={searchValue} onChange={handleOnChange} />
+                    <span className='optionsBar__searchIcon'><BsSearch/></span>
+                  {searchValue.length!==0 ?<button onClick={() => { setSearchValue(""); return setBooks(data) }}><MdClear/></button>:null }  
+                </label>
                 <div className='wrapperSelect' >
-                    <Select autosize={true} defaultValue={itemsOnPageOptions[2]} options={itemsOnPageOptions} onChange={(e) => {
+                    <Select  defaultValue={itemsOnPageOptions[2]} options={itemsOnPageOptions} onChange={(e) => {
                         e.value === 'all' ? setItemsPerPage(books.length) : setItemsPerPage(e.value)
-                    }} />
-                    </div>
-                <div className='wrapperSelect'>
-                    <Select autosize={true} defaultValue={sortOptions[0]} options={sortOptions} onChange={(e) => {
+                    }}   theme={themeSelect} isSearchable={false} styles={styleSelect}
+                    />
+            
+                    <Select defaultValue={sortOptions[0]} options={sortOptions} onChange={(e) => {
                         currentPage({ selected: 0 })
                         changePage({ selected: 0 })
                         setBooks(data.sort(e.filter)
@@ -69,11 +88,12 @@ const ProductsList = () => {
                                 return item.title.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())
                             })
                         )
-                    }} />
+                    }}  theme={themeSelect} isSearchable={false} styles={styleSelect}
+                    />
                 </div>
             </div>
             <ul className={`${listMenu ? 'list' : 'tiles'}`}>
-                {books.slice(pagesVisited, pagesVisited + itemsPerPage).map(item =><BookItem key={item.key} item={item}/>).sort(sortAZ)}
+                {books.slice(pagesVisited, pagesVisited + itemsPerPage).map(item => <BookItem key={item.key} item={item} />).sort(sortAZ)}
             </ul>
             <ReactPaginate
                 previousLabel={'Previous'}

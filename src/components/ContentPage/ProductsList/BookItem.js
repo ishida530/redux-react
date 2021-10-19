@@ -5,39 +5,18 @@ import { Link } from 'react-router-dom'
 import { FaLongArrowAltRight } from 'react-icons/fa'
 import { IoIosAddCircleOutline } from "react-icons/io";
 import './BookItem.scss'
-import { useParams } from "react-router-dom";
 
 
 const BookItem = (book) => {
     const [countBook, setCountBook] = useState(1)
     const [disabledBtn, setDisabledBtn] = useState(false)
-    const [fragment, setFragment] = useState("")
     const { item, visibleForm } = book
     const dispatch = useDispatch()
     const addBook = book => dispatch(checkBasket(book))
 
     const { key, simple_thumb, title, price, count, onSale, href } = item;
-    let x;
-    const searchId = useParams()
-    console.log(searchId)
-    const getFragmentBook = async () => {
-        const response = await fetch(`${href}`);
-        const data = await response.json()
-        x = data.fragment_data
-        setFragment(data.fragment_data)
-        // waits until the request completes...
-        return x
-    }
-
-    useEffect(() => {
-        if (searchId.id !== 0) {
-            x = getFragmentBook();
 
 
-        }
-        console.log("x", x)
-
-    }, [])
     const handleOnClik = (e, book) => {
         e.preventDefault();
         const { key, simple_thumb, title, price, onSale, href } = book
@@ -68,7 +47,6 @@ const BookItem = (book) => {
     }
     const handleSubmit = (e, book) => {
 
-        console.log('book submit', book)
         e.preventDefault();
         setDisabledBtn(true)
         setCountBook(1)
@@ -86,7 +64,7 @@ const BookItem = (book) => {
         )
     }
     return (
-        <>        <li className='bookItem'>
+             <li className='bookItem'>
             <img src={simple_thumb} alt="Logo" />
             <div className='li__div--info'>
                 <h3>{title}</h3>
@@ -110,15 +88,10 @@ const BookItem = (book) => {
                 }
             </div>
         </li>
-            {visibleForm ?
-                <div>
-                    <h3>Fragment książki:</h3>
-                    <p dangerouslySetInnerHTML={{ __html: fragment.html }}></p>
-            </div> :
-            null}
+        
 
 
-        </>
+    
 
     )
 }
