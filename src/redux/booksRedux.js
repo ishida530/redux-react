@@ -45,6 +45,7 @@ const FINISH_REQUEST_WITH_ERROR = createActionName('FINISH_REQUEST_WITH_ERROR')
 const FINISH_REQUEST_WITH_SUCCESS = createActionName('FINISH_REQUEST_WITH_SUCCESS')
 const SET_AMOUNT_BOOK_IN_BASKET = createActionName('SET_AMOUNT_BOOK_IN_BASKET')
 const SET_COUNT_BOOK = createActionName('SET_COUNT_BOOK')
+const REMOVE_COUNT_BOOK = createActionName('REMOVE_COUNT_BOOK')
 
 // action creators
 export const updateBooks = payload => ({ type: UPDATE_BOOKS, payload })
@@ -56,6 +57,7 @@ export const finishRequestWithError = () => ({ type: FINISH_REQUEST_WITH_ERROR }
 export const finishRequestWithSuccess = () => ({ type: FINISH_REQUEST_WITH_SUCCESS })
 export const setAmountBooks = payload => ({ type: SET_AMOUNT_BOOK_IN_BASKET, payload })
 export const changeCountBook = payload => ({ type: SET_COUNT_BOOK, payload })
+export const removeCountBook = payload => ({ type: REMOVE_COUNT_BOOK, payload })
 
 
 export const fetchBooks = () => {
@@ -102,6 +104,7 @@ export const checkBasket = (book, state) => {
     return (dispatch) => {
         if (book.count === 0) {
             dispatch(removeItemfromBasket(book))
+            dispatch(removeCountBook(book))
         } else {
             dispatch(changeCountBook(book))
             dispatch(addItemToBasket(book))
@@ -115,6 +118,14 @@ export const reducer = (state = initialState, { type, payload }) => {
     switch (type) {
         case UPDATE_BOOKS:
             return { ...state, books: [...payload] }
+            case REMOVE_COUNT_BOOK:
+                return { ...state, books: [...state.books.filter(item =>{
+                     if(item.key===payload.key){
+                    item.count=payload.count
+                }
+                 return item
+            })] }
+                
         case ADD_BOOK_TO_BASKET:
             return {
                 ...state,

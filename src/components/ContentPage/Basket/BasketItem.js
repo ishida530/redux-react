@@ -14,7 +14,6 @@ const BasketItem = (item) => {
     const {key,title,count,oldPrice,price,onSale,img}=item;
 
 
-
     const handleIncrementBtn = (e, book) => {
         const {key,img,title,price,oldPrice,onSale}=book
 
@@ -45,12 +44,15 @@ const BasketItem = (item) => {
         })
         else removeBook({
             key: book.key,
+            img:img
         })
     }
     const handleRemoveBtn = (e, book) => {
         e.preventDefault()
         removeBook({
             key: book.key,
+            img:img
+
         })
     }
     const handleOnBlur = (e, book) => {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { checkBasket, percentSale, priceAfterSale } from '../../../redux/booksRedux'
+import {useSelector, useDispatch } from 'react-redux'
+import { checkBasket,allBooks, percentSale, priceAfterSale } from '../../../redux/booksRedux'
 import { Link } from 'react-router-dom'
 import { FaLongArrowAltRight } from 'react-icons/fa'
 import { IoIosAddCircleOutline } from "react-icons/io";
@@ -8,15 +8,15 @@ import './BookItem.scss'
 
 
 const BookItem = (book) => {
+
     const [countBook, setCountBook] = useState(1)
     const [disabledBtn, setDisabledBtn] = useState(false)
     const { item, visibleForm } = book
+
+
     const dispatch = useDispatch()
     const addBook = book => dispatch(checkBasket(book))
-
     const { key, simple_thumb, title, price, count, onSale } = item;
-
-
     const handleOnClik = (e, book) => {
         e.preventDefault();
         const { key, simple_thumb, title, price, onSale } = book
