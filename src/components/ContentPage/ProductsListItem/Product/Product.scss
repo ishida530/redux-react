@@ -8,8 +8,15 @@ section.contentPage {
                 width: 300px;
                 max-height: unset;
             }
+           
             div{
-                justify-content: flex-end;
+                div.bookItem__rate{display: flex;
+                    justify-content: flex-start;
+                    flex-direction: column;
+                    span{
+                        text-align: left;
+                    }
+                }
                 h3{
                     margin-bottom: auto;
                     font-size: 2em;

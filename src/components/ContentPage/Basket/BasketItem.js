@@ -6,11 +6,12 @@ import { AiFillPlusSquare,AiFillMinusSquare } from "react-icons/ai";
 
 
 
-const BasketItem = (item) => {
+const BasketItem = ({item}) => {
     const dispatch = useDispatch() 
     const incrementCountBook = book => dispatch(checkBasket(book))
     const removeBook = book => dispatch(removeProduct(book))
     const setCountBook = book => dispatch(setAmountBooks(book))
+
     const {key,title,count,oldPrice,price,onSale,img}=item;
 
 

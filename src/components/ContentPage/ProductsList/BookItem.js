@@ -4,6 +4,8 @@ import { checkBasket,allBooks, percentSale, priceAfterSale } from '../../../redu
 import { Link } from 'react-router-dom'
 import { FaLongArrowAltRight } from 'react-icons/fa'
 import { IoIosAddCircleOutline } from "react-icons/io";
+import ReactStars from "react-rating-stars-component";
+
 import './BookItem.scss'
 
 
@@ -11,12 +13,28 @@ const BookItem = (book) => {
 
     const [countBook, setCountBook] = useState(1)
     const [disabledBtn, setDisabledBtn] = useState(false)
+    const [rate, setRate] = useState(0)
     const { item, visibleForm } = book
 
 
     const dispatch = useDispatch()
     const addBook = book => dispatch(checkBasket(book))
     const { key, simple_thumb, title, price, count, onSale } = item;
+let newValue=0
+    const starsRate = {
+        size: 40,
+        count: 5,
+        isHalf: false,
+        value: newValue,
+        color: "#ddd",
+        activeColor: "gold",
+        emptyIcon: <i className="far fa-star" />,
+        onChange: newValue => {
+            setRate(newValue)
+          console.log(`Example 3: new value is ${newValue}`);
+        }
+      };
+
     const handleOnClik = (e, book) => {
         e.preventDefault();
         const { key, simple_thumb, title, price, onSale } = book
@@ -67,6 +85,10 @@ const BookItem = (book) => {
             <img src={simple_thumb} alt="Logo" />
             <div className='li__div--info'>
                 <h3>{title}</h3>
+                <div className='bookItem__rate'>
+                    <ReactStars {...starsRate} />
+                    <span>Ocena:{rate}/5</span>
+                </div>
                 {onSale ? onSaleItems() : <span><span>{price}</span> PLN </span>}
                 {visibleForm ? <>
                     <form onSubmit={(e) => { return handleSubmit(e, book) && setCountBook(1) }}>

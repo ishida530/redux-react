@@ -14,7 +14,7 @@ const Basket = () => {
     return (
         <div className='basket'>
             <ul>
-                {itemsBasket === 0 ? <h1>Koszyk jest pusty</h1> : basketState.map(item => BasketItem(item))}
+                {itemsBasket === 0 ? <h1>Koszyk jest pusty</h1> : basketState.map(item =>< BasketItem item={item}/>)}
             </ul>
             <p className="sum"><b>SUMA:</b> <span>{price.toFixed(2)}PLN</span></p>
         </div>
