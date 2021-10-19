@@ -1,27 +1,46 @@
-import React,{useState} from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { checkBasket, percentSale, priceAfterSale } from '../../../redux/booksRedux'
 import { Link } from 'react-router-dom'
 import { FaLongArrowAltRight } from 'react-icons/fa'
 import { IoIosAddCircleOutline } from "react-icons/io";
 import './BookItem.scss'
-
+import { useParams } from "react-router-dom";
 
 
 const BookItem = (book) => {
     const [countBook, setCountBook] = useState(1)
     const [disabledBtn, setDisabledBtn] = useState(false)
-
-    const { item,visibleForm } = book
+    const [fragment, setFragment] = useState("")
+    const { item, visibleForm } = book
     const dispatch = useDispatch()
     const addBook = book => dispatch(checkBasket(book))
 
-   
-    const { key, simple_thumb, title, price, count, onSale } = item;
-console.log(item)
+    const { key, simple_thumb, title, price, count, onSale, href } = item;
+    let x;
+    const searchId = useParams()
+    console.log(searchId)
+    const getFragmentBook = async () => {
+        const response = await fetch(`${href}`);
+        const data = await response.json()
+        x = data.fragment_data
+        setFragment(data.fragment_data)
+        // waits until the request completes...
+        return x
+    }
+
+    useEffect(() => {
+        if (searchId.id !== 0) {
+            x = getFragmentBook();
+
+
+        }
+        console.log("x", x)
+
+    }, [])
     const handleOnClik = (e, book) => {
         e.preventDefault();
-        const { key, simple_thumb, title, price,onSale } = book
+        const { key, simple_thumb, title, price, onSale, href } = book
         return (
             addBook({
                 key: key,
@@ -30,7 +49,8 @@ console.log(item)
                 count: 1,
                 price: priceAfterSale(percentSale, price),
                 oldPrice: price,
-                onSale:onSale
+                onSale: onSale,
+                href: href
             })
         )
     }
@@ -40,51 +60,66 @@ console.log(item)
             <span><span className="item__price--new">{priceAfterSale(percentSale, price)} </span>PLN</span>
         </>
     )
-    
+
     const handleOnChange = (e) => {
         const tagret = e.target.value
         parseInt(tagret) === 0 || tagret.length === 0 || tagret < 0 ? setDisabledBtn(true) : setDisabledBtn(false)
         setCountBook(tagret)
-    } 
+    }
     const handleSubmit = (e, book) => {
-      
-        console.log('book submit',book)
+
+        console.log('book submit', book)
         e.preventDefault();
         setDisabledBtn(true)
         setCountBook(1)
-        const { key, simple_thumb, title, price,onSale,oldPrice } = book.item
+        const { key, simple_thumb, title, price, onSale } = book.item
         return (
             addBook({
-                    key: key,
-                    img: simple_thumb,
-                    title: title,
-                    count: parseInt(countBook),
-                    price: price,
-                    onSale:onSale,
-                    oldPrice:price
-                })
+                key: key,
+                img: simple_thumb,
+                title: title,
+                count: parseInt(countBook),
+                price: price,
+                onSale: onSale,
+                oldPrice: price
+            })
         )
     }
     return (
-        <li className='bookItem'>
+        <>        <li className='bookItem'>
             <img src={simple_thumb} alt="Logo" />
             <div className='li__div--info'>
                 <h3>{title}</h3>
                 {onSale ? onSaleItems() : <span><span>{price}</span> PLN </span>}
-                <Link to={`/product/${key}`}>Więcej szczegółów <FaLongArrowAltRight /></Link>
-                {visibleForm ?
-                   <form onSubmit={(e) => { return handleSubmit(e, book) && setCountBook(1) }}>
+                {visibleForm ? <>
+                    <form onSubmit={(e) => { return handleSubmit(e, book) && setCountBook(1) }}>
                         <input type="number" min={1} value={countBook} onChange={e => handleOnChange(e)} />
-                        <button disabled={disabledBtn} type='submit'>Dodaj do koszyka</button>
-                    </form> :
-                   <span className='product__span-alert'>
+                        <button disabled={disabledBtn} type='submit'><IoIosAddCircleOutline /></button>
+                    </form>
+
+
+                </> : <>
+                    <Link to={`/product/${key}`}>Więcej szczegółów <FaLongArrowAltRight /></Link>
+                    <span className='product__span-alert'>
                         <button className='li__btn--addBasket' onClick={e => handleOnClik(e, item)}>
                             <IoIosAddCircleOutline />
                         </button>{count > 0 ? 'Dodano: ' + count + "szt." : null}
                     </span>
+                </>
+
                 }
             </div>
         </li>
+            {visibleForm ?
+                <div>
+                    <h3>Fragment książki:</h3>
+                    <p dangerouslySetInnerHTML={{ __html: fragment.html }}></p>
+            </div> :
+            null}
+
+
+        </>
+
     )
 }
 

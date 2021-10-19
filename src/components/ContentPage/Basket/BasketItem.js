@@ -10,10 +10,10 @@ const BasketItem = (item) => {
     const incrementCountBook = book => dispatch(checkBasket(book))
     const removeBook = book => dispatch(removeProduct(book))
     const setCountBook = book => dispatch(setAmountBooks(book))
-    console.log("111",item)
-    const {key,title,count,oldPrice,price,onSale,img}=item;
+    const {key,title,count,oldPrice,price,onSale,img,href}=item;
 
 
+    console.log("111",href)
 
     const handleIncrementBtn = (e, book) => {
         const {key,img,title,price,oldPrice,onSale}=book
