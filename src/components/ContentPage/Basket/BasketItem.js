@@ -1,6 +1,6 @@
 import React from 'react'
 import { ImBin } from 'react-icons/im'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import {  checkBasket, removeProduct,   setAmountBooks } from '../../../redux/booksRedux'
 import { AiFillPlusSquare,AiFillMinusSquare } from "react-icons/ai";
 
@@ -11,7 +11,7 @@ const BasketItem = (item) => {
     const incrementCountBook = book => dispatch(checkBasket(book))
     const removeBook = book => dispatch(removeProduct(book))
     const setCountBook = book => dispatch(setAmountBooks(book))
-    const {key,title,count,oldPrice,price,onSale,img,href}=item;
+    const {key,title,count,oldPrice,price,onSale,img}=item;
 
 
 
@@ -107,7 +107,7 @@ return(
           <span>{oldPrice} PLN</span>
     
     }</label>
-        <div>
+        <div className="item__deleteWrapper">
 
             <button className="item__btn-delete" onClick={(e) => handleRemoveBtn(e, item)}><ImBin/> </button>
         </div>

@@ -7,7 +7,7 @@ import ReactPaginate from 'react-paginate';
 import { sortOptions, itemsOnPageOptions } from '../../../redux/initialState'
 import { sortAZ } from './sortFunctions';
 import BookItem from './BookItem'
-import { BsFillGrid3X3GapFill,BsListUl } from 'react-icons/bs';
+import { BsFillGrid3X3GapFill } from 'react-icons/bs';
 import { IoIosListBox  } from "react-icons/io";
 import { MdClear, } from "react-icons/md";
 import { BsSearch } from "react-icons/bs";

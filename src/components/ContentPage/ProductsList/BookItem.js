@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { checkBasket, percentSale, priceAfterSale } from '../../../redux/booksRedux'
 import { Link } from 'react-router-dom'
@@ -14,12 +14,12 @@ const BookItem = (book) => {
     const dispatch = useDispatch()
     const addBook = book => dispatch(checkBasket(book))
 
-    const { key, simple_thumb, title, price, count, onSale, href } = item;
+    const { key, simple_thumb, title, price, count, onSale } = item;
 
 
     const handleOnClik = (e, book) => {
         e.preventDefault();
-        const { key, simple_thumb, title, price, onSale, href } = book
+        const { key, simple_thumb, title, price, onSale } = book
         return (
             addBook({
                 key: key,
@@ -29,7 +29,6 @@ const BookItem = (book) => {
                 price: priceAfterSale(percentSale, price),
                 oldPrice: price,
                 onSale: onSale,
-                href: href
             })
         )
     }

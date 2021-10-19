@@ -39,7 +39,7 @@ const Product = () => {
                 <BookItem  item={book} visibleForm={true} />
                 <div>
                     <h3>Fragment książki:</h3>
-                    {loader ? <Loader /> : <p dangerouslySetInnerHTML={{ __html: `${fragment !== 0 ? fragment.html : '<div>brak</div>'}` }}></p>}
+                    {loader ? <Loader /> : <p dangerouslySetInnerHTML={{ __html: `${fragment !== 0 ? fragment.html : '<div >BRAK FRAGMENTU</div>'}` }}></p>}
                 </div>
             </div>)
     })
