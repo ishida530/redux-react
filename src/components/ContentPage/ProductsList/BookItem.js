@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import {useSelector, useDispatch } from 'react-redux'
-import { checkBasket,allBooks, percentSale, priceAfterSale } from '../../../redux/booksRedux'
+import { checkBasket, percentSale, priceAfterSale } from '../../../redux/booksRedux'
 import { Link } from 'react-router-dom'
 import { FaLongArrowAltRight } from 'react-icons/fa'
 import { IoIosAddCircleOutline } from "react-icons/io";
+import { newValue } from '../ProductsListItem/Product/RateForm/RateForm';
+
 import ReactStars from "react-rating-stars-component";
 
 import './BookItem.scss'
-
 
 const BookItem = (book) => {
 
@@ -20,21 +21,29 @@ const BookItem = (book) => {
     const dispatch = useDispatch()
     const addBook = book => dispatch(checkBasket(book))
     const { key, simple_thumb, title, price, count, onSale } = item;
-let newValue=0
+ 
+    const setRateFunction=({comments})=>{
+        let sum=0
+        let avarage=0
+        if(comments.length!==0){
+        comments.forEach(comment => {
+           sum+=comment.rate
+        });
+        avarage=Math.ceil(sum/comments.length)
+    }
+        return avarage
+    }
     const starsRate = {
-        size: 40,
+        size: 20,
         count: 5,
         isHalf: false,
-        value: newValue,
+        value: setRateFunction(item),
         color: "#ddd",
         activeColor: "gold",
         emptyIcon: <i className="far fa-star" />,
-        onChange: newValue => {
-            setRate(newValue)
-          console.log(`Example 3: new value is ${newValue}`);
-        }
+        edit: false
+    
       };
-
     const handleOnClik = (e, book) => {
         e.preventDefault();
         const { key, simple_thumb, title, price, onSale } = book
@@ -87,7 +96,7 @@ let newValue=0
                 <h3>{title}</h3>
                 <div className='bookItem__rate'>
                     <ReactStars {...starsRate} />
-                    <span>Ocena:{rate}/5</span>
+                    <span>Ocena:{setRateFunction(item)}/{starsRate.count}</span>
                 </div>
                 {onSale ? onSaleItems() : <span><span>{price}</span> PLN </span>}
                 {visibleForm ? <>

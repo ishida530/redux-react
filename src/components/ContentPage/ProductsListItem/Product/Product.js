@@ -5,6 +5,7 @@ import { allBooks } from '../../../../redux/booksRedux';
 import BookItem from '../../ProductsList/BookItem';
 import './Product.scss'
 import Loader from 'react-loader-spinner';
+import RateForm from './RateForm/RateForm';
 
 
 
@@ -27,21 +28,24 @@ const Product = () => {
     }
 
     useEffect(() => {
-        data.filter(item => item.key === searchId.id).map(book => getFragmentBook(book.href).then(() => setLoader(false)
-        ))
+        data.filter(item => item.key === searchId.id).map(book => getFragmentBook(book.href).then(() => setLoader(false)))
 
     }, [])
 
 
     return data.filter(item => item.key === searchId.id).map(book => {
         return (
-            <div key={searchId.id} className='product__wrapper'>
-                <BookItem  item={book} visibleForm={true} />
-                <div>
-                    <h3>Fragment książki:</h3>
-                    {loader ? <Loader /> : <p dangerouslySetInnerHTML={{ __html: `${fragment !== 0 ? fragment.html : '<div >BRAK FRAGMENTU</div>'}` }}></p>}
+            <div key={searchId.id} className='product__details'>            
+                <div  className='product__wrapper'>
+                    <BookItem item={book} visibleForm={true} />
+                    <div>
+                        <h3>Fragment książki:</h3>
+                        {loader ? <Loader /> : <p dangerouslySetInnerHTML={{ __html: `${fragment !== 0 ? fragment.html : '<div >BRAK FRAGMENTU</div>'}` }}></p>}
+                    </div>
                 </div>
-            </div>)
+                <RateForm item={book}/>
+                </div>
+ )
     })
 
 }

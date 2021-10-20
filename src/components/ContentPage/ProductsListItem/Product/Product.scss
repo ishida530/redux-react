@@ -1,56 +1,112 @@
 section.contentPage {
-    .product__wrapper {
-        li.bookItem {
-            justify-content: flex-start;
-           min-height: fit-content;
-          
-            img{
-                width: 300px;
-                max-height: unset;
-            }
-           
-            div{
-                div.bookItem__rate{display: flex;
-                    justify-content: flex-start;
-                    flex-direction: column;
-                    span{
-                        text-align: left;
-                    }
+
+    .product__details {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-between;
+
+        .product__wrapper {
+            width: 50%;
+
+            li.bookItem {
+                justify-content: flex-start;
+                min-height: fit-content;
+
+                img {
+                    width: 300px;
+                    max-height: unset;
                 }
-                h3{
-                    margin-bottom: auto;
-                    font-size: 2em;
-                }
-                >span{
-                    margin-bottom: 40px;
-                }
-                a{
-                    margin-bottom: 40px;
-                    font-size: 1.5em;
-                }
-                form{
-                    display: flex;
-                    button{
+
+                div {
+                    div.bookItem__rate {
                         display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        padding: 0;
-                        background-color: #fff;
-                        border: none;
-                        font-size: 25px;
-                        width: fit-content;
-                        margin-left: 10px;cursor: pointer;
-                        transition:.3s;
-                        &:hover{
-                            transform: scale(1.15);
+                        justify-content: flex-start;
+                        flex-direction: column;
+
+                        span {
+                            text-align: left;
+                        }
+                    }
+
+                    h3 {
+                        margin-bottom: auto;
+                        font-size: 2em;
+                    }
+
+                    >span {
+                        margin-bottom: 40px;
+                    }
+
+                    a {
+                        margin-bottom: 40px;
+                        font-size: 1.5em;
+                    }
+
+                    form {
+                        display: flex;
+
+                        button {
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            padding: 0;
+                            background-color: #fff;
+                            border: none;
+                            font-size: 25px;
+                            width: fit-content;
+                            margin-left: 10px;
+                            cursor: pointer;
+                            transition: .3s;
+
+                            &:hover {
+                                transform: scale(1.15);
+                            }
                         }
                     }
                 }
+
             }
-           
+
+            .verse {
+                padding: 0 !important;
+            }
         }
-        .verse{
-            padding: 0 !important;
+
+        .formRate__wrapper {
+            width: 50%;
+
+            .formRate {
+                width: 50%;
+
+                label,div {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+
+                    span {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+
+                }
+            }
+
+            .formRate__comments {
+                height: 40vh;
+                overflow-y: auto;
+                .formRate__comments--singleComment {
+                    border-bottom: 1px solid #ddd;
+                    width: 350px;
+
+                    p {
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                    }
+                }
+            }
         }
     }
 }

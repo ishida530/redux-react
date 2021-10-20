@@ -4,9 +4,9 @@ import { sortAZ } from "../components/ContentPage/ProductsList/sortFunctions";
 
 let lengthArrayBooks = 0;
 const itemOnSale = 3
-export const percentSale=0.2
-export const priceAfterSale=(sale,itemPrice)=>{
-    return (itemPrice-(percentSale*itemPrice)).toFixed(2)
+export const percentSale = 0.2
+export const priceAfterSale = (sale, itemPrice) => {
+    return (itemPrice - (percentSale * itemPrice)).toFixed(2)
 }
 const incrementLengthItems = arr => Object.values(arr).forEach(e => {
     if (isNaN(e.count)) return
@@ -46,6 +46,7 @@ const FINISH_REQUEST_WITH_SUCCESS = createActionName('FINISH_REQUEST_WITH_SUCCES
 const SET_AMOUNT_BOOK_IN_BASKET = createActionName('SET_AMOUNT_BOOK_IN_BASKET')
 const SET_COUNT_BOOK = createActionName('SET_COUNT_BOOK')
 const REMOVE_COUNT_BOOK = createActionName('REMOVE_COUNT_BOOK')
+const ADD_COMMENT_TO_BOOK = createActionName('ADD_COMMENT_TO_BOOK')
 
 // action creators
 export const updateBooks = payload => ({ type: UPDATE_BOOKS, payload })
@@ -59,6 +60,7 @@ export const setAmountBooks = payload => ({ type: SET_AMOUNT_BOOK_IN_BASKET, pay
 export const changeCountBook = payload => ({ type: SET_COUNT_BOOK, payload })
 export const removeCountBook = payload => ({ type: REMOVE_COUNT_BOOK, payload })
 
+export const addComment = payload => ({ type: ADD_COMMENT_TO_BOOK, payload })
 
 export const fetchBooks = () => {
     return async (dispatch) => {
@@ -79,6 +81,7 @@ export const fetchBooks = () => {
                         count: 0,
                         price: (Math.random() * 100.00).toFixed(2),
                         onSale: false,
+                        comments: []
                     })
                 );
                 for (let i = 0; i < itemOnSale; i++) {
@@ -105,6 +108,7 @@ export const checkBasket = (book, state) => {
         if (book.count === 0) {
             dispatch(removeItemfromBasket(book))
             dispatch(removeCountBook(book))
+
         } else {
             dispatch(changeCountBook(book))
             dispatch(addItemToBasket(book))
@@ -113,28 +117,43 @@ export const checkBasket = (book, state) => {
 }
 let counter = 0
 
-
 export const reducer = (state = initialState, { type, payload }) => {
     switch (type) {
         case UPDATE_BOOKS:
             return { ...state, books: [...payload] }
-            case REMOVE_COUNT_BOOK:
-                return { ...state, books: [...state.books.filter(item =>{
-                     if(item.key===payload.key){
-                    item.count=payload.count
-                }
-                 return item
-            })] }
-                
+        case ADD_COMMENT_TO_BOOK:
+            return {
+                ...state, books: [...state.books.filter(item => {
+
+                    if (item.key === payload.key) {
+                        item.comments = [ ...item.comments,payload]
+                        localStorage.setItem("array", JSON.stringify(state.books));
+
+                        return item.comments
+                    }
+                    return item
+
+                })]
+            }
+
+        case REMOVE_COUNT_BOOK:
+            return {
+                ...state, books: [...state.books.filter(item => {
+                    if (item.key === payload.key) {
+                        item.count = payload.count
+                    }
+                    return item
+                })]
+            }
+
         case ADD_BOOK_TO_BASKET:
             return {
                 ...state,
                 basket: [...state.basket.filter(item => {
                     counter = 0
-
                     if (item.key === payload.key) {
                         counter = item.count
-                         payload.count += counter
+                        payload.count += counter
                     }
                     if (item.key !== payload.key) return item
                 }), payload].sort(sortAZ),

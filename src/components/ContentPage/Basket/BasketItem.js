@@ -1,7 +1,7 @@
 import React from 'react'
 import { ImBin } from 'react-icons/im'
 import { useDispatch } from 'react-redux'
-import {  checkBasket, removeProduct,   setAmountBooks } from '../../../redux/booksRedux'
+import {  checkBasket, removeProduct,   setAmountBooks,removeCountBook } from '../../../redux/booksRedux'
 import { AiFillPlusSquare,AiFillMinusSquare } from "react-icons/ai";
 
 
@@ -10,8 +10,9 @@ const BasketItem = ({item}) => {
     const dispatch = useDispatch() 
     const incrementCountBook = book => dispatch(checkBasket(book))
     const removeBook = book => dispatch(removeProduct(book))
+    const setAmountArrayBooks = book => dispatch(removeCountBook(book))
     const setCountBook = book => dispatch(setAmountBooks(book))
-
+    
     const {key,title,count,oldPrice,price,onSale,img}=item;
 
 
@@ -43,10 +44,17 @@ const BasketItem = ({item}) => {
             onSale:onSale
     
         })
-        else removeBook({
+        else {
+            removeBook({
             key: book.key,
-            img:img
+            img:img,
+            count:0
         })
+        setAmountArrayBooks({
+            key: book.key,
+            count:0
+        })
+    }
     }
     const handleRemoveBtn = (e, book) => {
         e.preventDefault()
